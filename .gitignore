@@ -1,0 +1,95 @@
+# Windows image file caches
+
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+
+Desktop.ini
+
+# Recycle Bin used on file shares
+
+$RECYCLE.BIN/
+
+# Windows Installer files
+
+*.cab
+*.msi
+*.msm
+*.msp
+
+# C++ objects and libs
+
+*.slo
+*.lo
+*.o
+*.a
+*.la
+*.lai
+*.so
+*.dll
+*.dylib
+
+# Qt-es
+
+/.qmake.cache
+/.qmake.stash
+*.pro.user
+*.pro.user.*
+*.qbs.user
+*.qbs.user.*
+*.moc
+moc_*.cpp
+qrc_*.cpp
+ui_*.h
+Makefile*
+*-build-*
+.make.cache
+
+# QtCreator
+
+*.autosave
+
+# QtCtreator Qml
+
+*.qmlproject.user
+*.qmlproject.user.*
+
+# Symbian-es
+
+bld.inf
+*.loc
+*.rss
+*_exe.mmp
+*.pkg
+*.sis
+ABLD.BAT
+*.mk
+
+# debian-es
+
+#replace the line below with your app target name
+OneToAll
+*.changes
+*.deb
+key.js
+
+# temp folders
+
+**/tmp
+
+# =========================
+# Operating System Files
+# =========================
+
+# OSX
+# =========================
+
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Thumbnails
+._*
+*.changes
+*.changes

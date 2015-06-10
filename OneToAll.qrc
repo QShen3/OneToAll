@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/">
+        <file>i18n/onetoall_zh.qm</file>
+        <file>qml/JavaScript/key.js</file>
+        <file>qml/JavaScript/main.js</file>
+        <file>qml/pic/Circle.svg</file>
+        <file>qml/pic/Renren_logo.svg</file>
+        <file>qml/pic/Weibo_logo.svg</file>
+    </qresource>
+</RCC>
