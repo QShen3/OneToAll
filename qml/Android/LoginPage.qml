@@ -32,5 +32,9 @@ Page{
             }
         }
     }
+
+    Keys.onBackPressed: {
+        pageStack.pop();
+    }
 }
 

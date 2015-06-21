@@ -1,9 +1,14 @@
 .pragma library
 Qt.include("key.js")
 var signalcenter;
+var utility;
 function setsignalcenter(mycenter){
     signalcenter=mycenter;
 }
+function initialize(ut){
+    utility = ut;
+}
+
 function cutStr(string,start,end){
     string=string.toString();
     if(end)
@@ -178,3 +183,18 @@ function loadRenrenSendResult(oritxt){
     sendText(obj.response.content);
 }
 
+var versionCheckDialog;
+function checkNewVersion(){
+    var url = "http://onetoall.sinaapp.com/version.php";
+    sendWebRequest(url, loadCheckNewVersionResult, "GET", NULL);
+}
+function loadCheckNewVersionResult(oritxt){
+    var obj = JSON.parse(oritxt);
+    if(obj.versioncode > 2){
+        if(utility.platformType === utility.Andriod_x86){
+            versionCheckDialog.openDialog(true, obj.x86url)
+        }
+        else versionCheckDialog.openDialog(true, obj.armurl)
+    }
+    else versionCheckDialog.openDialog(false, "");
+}
