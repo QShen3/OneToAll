@@ -8,29 +8,12 @@ Page {
     id: homepage;
     title: "OneToAll";
     property string uid;
-    property string accessToken;
-    /*Action{
-        id: backaction;
-        iconName: "navigation/arrow_back";
-        onTriggered: {
-            if(quitTimer.running){
-                saveUserData();
-                Qt.quit();
-            }
-            else {
-                snackbar.open(qsTr("Please click again to quit"));
-                quitTimer.start();
-            }
-        }
-    }
-    backAction: backaction;*/
+    property string accessToken;   
     actions: [
         Action{
-            iconName: "action/info";
-            //name: "Info";
-            onTriggered: aboutdialog.open();
+            iconName: "action/settings";
+            onTriggered: pageStack.push(Qt.resolvedUrl("SettingPage.qml"));
         }
-
     ]
 
     Card{
@@ -112,7 +95,7 @@ Page {
                 bottom: parent.bottom;
                 margins: Units.dp(8);
             }
-            textColor: Theme.accentColor;
+            textColor: Theme.primaryColor;
             text: qsTr("Send");
             onClicked: {
                 inputtext.focus = false;
@@ -171,9 +154,6 @@ Page {
         Label{
             text: qsTr("Write added this feature, so stay tuned");
         }
-    }
-    AboutDialog{
-        id: aboutdialog;
     }
 
     Keys.onBackPressed: {
