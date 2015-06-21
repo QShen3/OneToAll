@@ -183,3 +183,19 @@ function loadRenrenSendResult(oritxt){
     sendText(obj.response.content);
 }
 
+var versionCheckDialog;
+function checkNewVersion(){
+    var url = "http://onetoall.sinaapp.com/version.php";
+    sendWebRequest(url, loadCheckNewVersionResult, "GET", "");
+}
+function loadCheckNewVersionResult(oritxt){
+    var obj = JSON.parse(oritxt);
+    if(obj.versioncode > 2){
+        if(utility.platformType === 0){
+
+            versionCheckDialog.openDialog(true, obj.x86url)
+        }
+        else versionCheckDialog.openDialog(true, obj.armurl)
+    }
+    else versionCheckDialog.openDialog(false, "");
+}

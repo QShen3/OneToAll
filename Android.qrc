@@ -9,5 +9,6 @@
         <file>qml/Android/Dialog/AboutDialog.qml</file>
         <file>qml/Android/Dialog/ChooseDialog.qml</file>
         <file>qml/Android/SettingPage.qml</file>
+        <file>qml/Android/Dialog/VersionCheckDialog.qml</file>
     </qresource>
 </RCC>

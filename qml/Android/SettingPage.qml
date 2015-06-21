@@ -24,6 +24,7 @@ Page{
         ListItem.Subtitled{
             subText: qsTr("Click to check new version");
             text: qsTr("New version");
+            onClicked: Script.checkNewVersion();
         }
         ThinDivider{
             anchors.leftMargin: Units.dp(16);
@@ -37,14 +38,14 @@ Page{
     AboutDialog{
         id: aboutdialog;
     }
-    /*VersionCheckDialog{
+    VersionCheckDialog{
         id:versionCheckDialog;
-    }*/
+    }
 
     Keys.onBackPressed: {
         pageStack.pop();
     }
     Component.onCompleted: {
-        //Script.versionCheckDialog = versionCheckDialog;
+        Script.versionCheckDialog = versionCheckDialog;
     }
 }
