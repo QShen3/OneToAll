@@ -15,23 +15,20 @@ RESOURCES += Android.qrc \
 
 TRANSLATIONS += i18n/onetoall_zh.ts
 
-debug{
-    OTHER_FILES += \
-        qml/JavaScript/*.js \
-        qml/pic/*.svg \
-        qml/pic/*.png
-}
+OTHER_FILES += \
+    qml/JavaScript/*.js \
+    qml/pic/*.svg \
+    qml/pic/*.png
+
 
 android{
-    message(andriod bulid)
-    debug{
-        OTHER_FILES += \
-            qml/Android/*.qml \
-            qml/Android/BaseComponent/*.qml \
-            qml/Android/Delegate/*.qml \
-            qml/Android/Dialog/*.qml
-        message(andriod debug build)
-    }
+
+    OTHER_FILES += \
+        qml/Android/*.qml \
+        qml/Android/BaseComponent/*.qml \
+        qml/Android/Delegate/*.qml \
+        qml/Android/Dialog/*.qml
+
 
     DISTFILES += \
         android/gradle/wrapper/gradle-wrapper.jar \
