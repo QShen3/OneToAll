@@ -1,6 +1,6 @@
 import QtQuick 2.4
-//import QtQuick.Controls 1.3
-//import QtQuick.Layouts 1.1
+import QtQuick.Controls 1.3
+import QtQuick.Layouts 1.1
 import Material 0.1
 import "BaseComponent"
 import "../JavaScript/main.js" as Script
@@ -56,7 +56,6 @@ ApplicationWindow {
     }
     Component.onCompleted:{
         Script.setsignalcenter(signalcenter);
-
         Script.usermodel = usermodel;
         loadUserData(userdata.getUserData("UserData"));
         Script.checkAccessToken();

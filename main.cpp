@@ -4,7 +4,7 @@
 #include <QTranslator>
 #include <QDebug>
 #include "UserData.h"
-//#include "Utility.h"
+
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
@@ -15,16 +15,14 @@ int main(int argc, char *argv[])
         qDebug()<<"here";
     }
     app.installTranslator(&translator);
-qDebug()<<"here";
+
     UserData userdata;
-    //Utility utility;
 
     QQmlApplicationEngine engine;
 
     engine.rootContext()->setContextProperty("userdata",&userdata);
-    //engine.rootContext()->setContextProperty("utility",&utility);
-    qDebug()<<"here";
 
+    //qDebug()<<"here";
     engine.load(QUrl(QStringLiteral("qrc:/qml/Android/main.qml")));
 
     return app.exec();
