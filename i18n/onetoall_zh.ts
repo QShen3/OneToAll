@@ -59,10 +59,48 @@ My e-mail: qazxdrcssc2006@163.com</source>
     </message>
 </context>
 <context>
+    <name>SettingPage</name>
+    <message>
+        <source>Settings</source>
+        <translation>设置</translation>
+    </message>
+    <message>
+        <source>Support</source>
+        <translation>支持</translation>
+    </message>
+    <message>
+        <source>Click to check new version</source>
+        <translation>点击检查新版本</translation>
+    </message>
+    <message>
+        <source>New version</source>
+        <translation>版本</translation>
+    </message>
+    <message>
+        <source>About</source>
+        <translation>关于</translation>
+    </message>
+</context>
+<context>
     <name>UserComponent</name>
     <message>
         <source>Authorize expired!</source>
         <translation>授权过期！</translation>
+    </message>
+</context>
+<context>
+    <name>VersionCheckDialog</name>
+    <message>
+        <source>Check the new version</source>
+        <translation>检查新版本</translation>
+    </message>
+    <message>
+        <source>Found a new version.Start downloading now?</source>
+        <translation>找到一个新版本。是否开始下载？</translation>
+    </message>
+    <message>
+        <source>The current version is the latest version</source>
+        <translation>当前版本为最新版本</translation>
     </message>
 </context>
 <context>

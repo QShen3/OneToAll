@@ -78,6 +78,5 @@ ApplicationWindow {
         for(var i in obj.statuses) {
             usermodel.append(obj.statuses[i]);
         }
-        utility.Andriod_x86
     }
 }
