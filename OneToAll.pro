@@ -3,10 +3,12 @@ TEMPLATE = app
 QT += qml quick widgets svg
 
 SOURCES += main.cpp \
-    src/UserData.cpp
+    src/UserData.cpp \
+    src/Utility.cpp
 
 HEADERS += \
-    src/UserData.h
+    src/UserData.h \
+    src/Utility.h
 
 INCLUDEPATH += src
 
