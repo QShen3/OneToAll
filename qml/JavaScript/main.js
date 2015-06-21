@@ -1,9 +1,14 @@
 .pragma library
 Qt.include("key.js")
 var signalcenter;
+var utility
 function setsignalcenter(mycenter){
     signalcenter=mycenter;
 }
+function initialize(ut){
+    utility = ut;
+}
+
 function cutStr(string,start,end){
     string=string.toString();
     if(end)

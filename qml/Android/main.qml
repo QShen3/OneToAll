@@ -56,6 +56,7 @@ ApplicationWindow {
     }
     Component.onCompleted:{
         Script.setsignalcenter(signalcenter);
+        Script.initialize(utility);
         Script.usermodel = usermodel;
         loadUserData(userdata.getUserData("UserData"));
         Script.checkAccessToken();
