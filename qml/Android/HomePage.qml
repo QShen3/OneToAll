@@ -1,4 +1,5 @@
 import QtQuick 2.4
+import QtQuick.Dialogs 1.2
 import Material 0.1
 import "Delegate"
 import "Dialog"
@@ -77,7 +78,9 @@ Page {
             spacing: Units.dp(16);
             IconButton{
                 iconName: "editor/insert_photo";
-                onClicked: tempdialog.open();
+                //onClicked: tempdialog.open();
+                //onClicked: picdialog.open();
+                onClicked: utility.selectImage();
             }
             IconButton{
                 iconName: "editor/insert_emoticon";

@@ -1,6 +1,7 @@
-#ifndef UTILITY
-#define UTILITY
+
 #include <QObject>
+#include <QPointer>
+class AndroidImageSelecter;
 class Utility : public QObject
 {
     Q_OBJECT
@@ -19,9 +20,38 @@ public:
 
     PlatformType platformType() const;
 
+    Q_INVOKABLE QString selectImage();
+
 private:
     PlatformType m_platformType;
+
+
+public:
+    bool imageFlag;
+    QString imageUrl;
+
+signals:
+    void startSelectImage(Utility*);
+
+private:
+    QPointer<QThread> thread;
+    QPointer<AndroidImageSelecter> androidImageSelecter;
+
+
 };
 
-#endif // UTILITY
+class AndroidImageSelecter : public QObject
+{
+    Q_OBJECT
+
+public:
+    explicit AndroidImageSelecter(QObject *parent = 0);
+    ~AndroidImageSelecter();
+
+public slots:
+    void start(Utility*);
+
+};
+
+
 

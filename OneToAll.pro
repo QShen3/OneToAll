@@ -24,7 +24,7 @@ OTHER_FILES += \
 
 
 android{
-
+    QT += androidextras
     OTHER_FILES += \
         qml/Android/*.qml \
         qml/Android/BaseComponent/*.qml \
@@ -39,10 +39,12 @@ android{
         android/build.gradle \
         android/gradle/wrapper/gradle-wrapper.properties \
         android/gradlew \
-        android/gradlew.bat
+        android/gradlew.bat \
+        android/src/com/qshen/onetoall/ImagePicker.java
 
     ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
 }
 
 include(deployment.pri)
+
 
