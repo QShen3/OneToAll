@@ -159,6 +159,13 @@ Page {
         }
     }
 
+    Connections{
+        target: utility;
+        onSelectImageFinished:{
+            console.log(imageUrl);
+        }
+    }
+
     Keys.onBackPressed: {
         if(quitTimer.running){
             saveUserData();

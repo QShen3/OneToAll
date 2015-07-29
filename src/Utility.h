@@ -1,7 +1,10 @@
 
 #include <QObject>
 #include <QPointer>
-class AndroidImageSelecter;
+#ifdef Q_OS_ANDROID
+#include <QtAndroidExtras>
+class ResultReceiver;
+#endif
 class Utility : public QObject
 {
     Q_OBJECT
@@ -20,38 +23,49 @@ public:
 
     PlatformType platformType() const;
 
-    Q_INVOKABLE QString selectImage();
+    Q_INVOKABLE void selectImage();
+
+signals:
+    void selectImageFinished(QString imageUrl);
 
 private:
     PlatformType m_platformType;
+#ifdef Q_OS_ANDROID
+    ResultReceiver *resultReceiver;
+#endif
+};
 
-
+#ifdef Q_OS_ANDROID
+class ResultReceiver: public QAndroidActivityResultReceiver
+{
 public:
-    bool imageFlag;
-    QString imageUrl;
+    ResultReceiver(Utility *arg)
+    {
+        utility = arg;
+    }
 
-signals:
-    void startSelectImage(Utility*);
+    void handleActivityResult(int receiverRequestCode, int resultCode, const QAndroidJniObject & data)
+    {
+        if(receiverRequestCode == 1){
+            if(resultCode == -1){
+                QAndroidJniObject path= QAndroidJniObject::callStaticObjectMethod(
+                            "com/qshen/onetoall/ImagePicker",
+                            "getUrl",
+                            "(Landroid/content/Intent;)Ljava/lang/String;",
+                            data.object<jobject>());
+
+                emit utility->selectImageFinished(path.toString());
+            }
+            else{
+                //some code here
+            }
+        }
+    }
 
 private:
-    QPointer<QThread> thread;
-    QPointer<AndroidImageSelecter> androidImageSelecter;
-
+    Utility *utility;
 
 };
-
-class AndroidImageSelecter : public QObject
-{
-    Q_OBJECT
-
-public:
-    explicit AndroidImageSelecter(QObject *parent = 0);
-    ~AndroidImageSelecter();
-
-public slots:
-    void start(Utility*);
-
-};
-
+#endif
 
 
