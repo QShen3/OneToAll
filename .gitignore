@@ -69,7 +69,6 @@ ABLD.BAT
 # debian-es
 
 #replace the line below with your app target name
-OneToAll
 *.changes
 *.deb
 key.js
