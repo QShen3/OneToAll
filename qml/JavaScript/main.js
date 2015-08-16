@@ -44,10 +44,17 @@ function sendWebRequest(url, callback, method, postdata) {
         xmlhttp.setRequestHeader("Content-Length", postdata.length);
         xmlhttp.send(postdata);
     }
+    if(method === "POSTFILE") {
+        xmlhttp.open("POST", url);
+        xmlhttp.setRequestHeader("Content-Type", "multipart/form-data");
+        xmlhttp.setRequestHeader("Content-Length", postdata.length);
+        xmlhttp.send(postdata);
+    }
 }
 
 var usermodel;
 
+//授权相关
 var accessToken;
 var uid;
 var userindex = 0;
@@ -117,6 +124,7 @@ function loadRenrenRefreshResult(oritxt){
     checkAccessToken();
 }
 
+//获取用户信息
 function getUserInfo(from, uid, accesstoken){
     switch(from){
     case "Weibo":
@@ -133,7 +141,7 @@ function loadWeiboUserInfo(oritxt){
 }
 
 
-
+//发送文字信息
 function sendText(text){
     if(usermodel.count > userindex){
         if(usermodel.get(userindex).checked){
@@ -164,7 +172,6 @@ function loadWeiboSendResult(oritxt){
     }
     userindex++;
     sendText(obj.text);
-    console.log("here");
 }
 function sendRenrenText(accesstoken,text){
     var url = "https://api.renren.com/v2/status/put";
@@ -181,6 +188,51 @@ function loadRenrenSendResult(oritxt){
     }
     userindex++;
     sendText(obj.response.content);
+}
+
+var imageDate;
+function sendImage(text, image) {
+    if(usermodel.count > userindex){
+        imageDate = image;
+        if(usermodel.get(userindex).checked){
+            switch(usermodel.get(userindex).from){
+            case "Weibo":
+                sendWeiboImage(usermodel.get(userindex).accesstoken, text, image);
+                break;
+            case "Renren":
+                sendRenrenImage(usermodel.get(userindex).accesstoken, text, image);
+            }
+        }
+    }
+    else {
+        userindex = 0;
+        imageDate = NULL;
+    }
+}
+function sendWeiboImage(accesstoken, text, image){
+    var url = "https://api.weibo.com/2/statuses/upload.json";
+    var data = new FormData();
+    data.append("access_token", accesstoken);
+    data.append("status", encodeURIComponent(text));
+    data.append("pic", image);
+
+    sendWebRequest(url, loadWeiboSendResult, "POSTFILE", data);
+}
+function loadWeiboSendResult(oritxt){
+    var obj=JSON.parse(oritxt);
+    //console.log(qstr("Weibo ") +obj.user.name+ qsTr(" send successful"));
+    try{
+        signalcenter.showMessage(qsTr("Weibo ") +obj.user.name+ qsTr(" send successful"));
+    }
+    catch(e){
+        signalcenter.showMessage(obj.error);
+    }
+    userindex++;
+    sendImage(obj.text, imageDate);
+}
+function sendRenrenImage() {
+    userindex++;
+    sendImage(imageDate);
 }
 
 var versionCheckDialog;

@@ -48,6 +48,8 @@ public:
     {
         if(receiverRequestCode == 1){
             if(resultCode == -1){
+                QAndroidJniEnvironment env;
+
                 QAndroidJniObject path= QAndroidJniObject::callStaticObjectMethod(
                             "com/qshen/onetoall/ImagePicker",
                             "getUrl",
@@ -55,6 +57,15 @@ public:
                             data.object<jobject>());
 
                 emit utility->selectImageFinished(path.toString());
+
+                if(env->ExceptionCheck()){
+                    qDebug()<<"erro";
+                    env->ExceptionDescribe();
+                    env->ExceptionClear();
+
+                }
+
+                qDebug()<<path.toString();
             }
             else{
                 //some code here
