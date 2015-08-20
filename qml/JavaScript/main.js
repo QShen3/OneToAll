@@ -1,12 +1,14 @@
 .pragma library
 Qt.include("key.js")
 var signalcenter;
-var utility
-function setsignalcenter(mycenter){
-    signalcenter=mycenter;
-}
-function initialize(ut){
+var utility;
+var httprequest;
+
+function initialize(sc, ut, hr, um){
+    signalcenter = sc;
     utility = ut;
+    httprequest = hr;
+    usermodel = um;
 }
 
 function cutStr(string,start,end){
@@ -168,7 +170,7 @@ function loadWeiboSendResult(oritxt){
         signalcenter.showMessage(qsTr("Weibo ") +obj.user.name+ qsTr(" send successful"));
     }
     catch(e){
-        signalcenter.showMessage(obj.error);
+        signalcenter.showMessage(qsTr("Weibo ") + obj.error);
     }
     userindex++;
     sendText(obj.text);
@@ -179,12 +181,13 @@ function sendRenrenText(accesstoken,text){
     sendWebRequest(url, loadRenrenSendResult, "POST", postText);
 }
 function loadRenrenSendResult(oritxt){
+    console.log(oritxt)
     var obj = JSON.parse(oritxt);
     try{
         signalcenter.showMessage(qsTr("Renren ") + obj.response.ownerId +qsTr(" send successful"));
     }
     catch(e){
-        signalcenter.showMessage(obj.error.message);
+        signalcenter.showMessage(qsTr("Renren ") + obj.error.message);
     }
     userindex++;
     sendText(obj.response.content);
@@ -197,44 +200,34 @@ function sendImage(text, image) {
         if(usermodel.get(userindex).checked){
             switch(usermodel.get(userindex).from){
             case "Weibo":
-                sendWeiboImage(usermodel.get(userindex).accesstoken, text, image);
+                httprequest.sendWeiboImage(usermodel.get(userindex).accesstoken, image, text);
                 break;
             case "Renren":
-                sendRenrenImage(usermodel.get(userindex).accesstoken, text, image);
+                //sendRenrenImage(usermodel.get(userindex).accesstoken, text, image);
+                userindex++;
+                break;
             }
         }
     }
     else {
         userindex = 0;
-        imageDate = NULL;
+        imageDate = "NULL";
     }
 }
-function sendWeiboImage(accesstoken, text, image){
-    var url = "https://api.weibo.com/2/statuses/upload.json";
-    var data = new FormData();
-    data.append("access_token", accesstoken);
-    data.append("status", encodeURIComponent(text));
-    data.append("pic", image);
-
-    sendWebRequest(url, loadWeiboSendResult, "POSTFILE", data);
-}
-function loadWeiboSendResult(oritxt){
+function loadWeiboSendImageResult(oritxt){
     var obj=JSON.parse(oritxt);
     //console.log(qstr("Weibo ") +obj.user.name+ qsTr(" send successful"));
     try{
-        signalcenter.showMessage(qsTr("Weibo ") +obj.user.name+ qsTr(" send successful"));
+        signalcenter.showMessage(qsTr("Weibo ") + obj.user.name+ qsTr(" send successful"));
     }
     catch(e){
-        signalcenter.showMessage(obj.error);
+        signalcenter.showMessage(qsTr("Weibo ") + obj.error);
     }
     userindex++;
     sendImage(obj.text, imageDate);
 }
-function sendRenrenImage() {
-    userindex++;
-    sendImage(imageDate);
-}
 
+//版本检查
 var versionCheckDialog;
 function checkNewVersion(){
     var url = "http://onetoall.sinaapp.com/version.php";

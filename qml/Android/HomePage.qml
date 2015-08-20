@@ -9,7 +9,9 @@ Page {
     id: homepage;
     title: "OneToAll";
     property string uid;
-    property string accessToken;   
+    property string accessToken;
+
+    property bool hasPic : false;
     actions: [
         Action{
             iconName: "action/settings";
@@ -32,7 +34,7 @@ Page {
                 left: parent.left;
                 right: parent.right;
                 top: parent.top;
-                bottom: counter.top;
+                bottom: picture.top;
                 margins: Units.dp(20);
             }
             contentHeight: inputtext.height;
@@ -51,6 +53,16 @@ Page {
         }
         Scrollbar{
             flickableItem: textflickable;
+        }
+        Image{
+            id:picture;
+            anchors{
+                left: parent.left;
+                bottom: counter.top;
+                margins: Units.dp(20);
+            }
+            height: hasPic ? Units.dp(96) : 0;
+            width: sourceSize.width / sourceSize.height * height;
         }
         Label{
             id:counter;
@@ -101,8 +113,14 @@ Page {
             textColor: Theme.primaryColor;
             text: qsTr("Send");
             onClicked: {
-                inputtext.focus = false;
-                Script.sendText(inputtext.text);
+                if(!hasPic){
+                    inputtext.focus = false;
+                    Script.sendText(inputtext.text);
+                }
+                else {
+                    inputtext.focus = false;
+                    Script.sendImage(inputtext.text , Script.cutStr(picture.source, 7) );
+                }
             }
         }
     }
@@ -162,7 +180,26 @@ Page {
     Connections{
         target: utility;
         onSelectImageFinished:{
-            console.log(imageUrl);
+            picture.source = "file://"+imageUrl;
+            hasPic = true;
+        }
+    }
+    Connections{
+        target: httprequest;
+        onSendWeiboImageFinished:{
+            Script.loadWeiboSendImageResult(oritxt);
+        }
+        onStatusChanged:{
+            if(httprequest.status == 0) {
+                app.loading = false;
+                loadingind.close();
+                processingtimer.stop();
+            }
+            else {
+                app.loading = true;
+                loadingind.open();
+                processingtimer.restart();
+            }
         }
     }
 

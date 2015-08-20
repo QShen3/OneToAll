@@ -1,5 +1,6 @@
 #include <QThread>
 #include <QDebug>
+#include <QFile>
 #ifdef Q_OS_ANDROID
 #include <unistd.h>
 #endif
@@ -47,5 +48,14 @@ void Utility::selectImage()
     QtAndroid::startActivity( intent, 1, resultReceiver );
 
 #endif
+}
+
+QByteArray Utility::getFile(QString url)
+{
+    QFile file(url);
+    if(!file.open(QIODevice::ReadOnly)){
+        qDebug() << "erro";
+    }
+    return file.readAll();
 }
 

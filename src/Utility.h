@@ -24,6 +24,7 @@ public:
     PlatformType platformType() const;
 
     Q_INVOKABLE void selectImage();
+    Q_INVOKABLE QByteArray getFile(QString url);
 
 signals:
     void selectImageFinished(QString imageUrl);
@@ -62,13 +63,10 @@ public:
                     qDebug()<<"erro";
                     env->ExceptionDescribe();
                     env->ExceptionClear();
-
                 }
-
-                qDebug()<<path.toString();
             }
             else{
-                //some code here
+                qDebug()<<"erro";
             }
         }
     }

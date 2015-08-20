@@ -26,7 +26,10 @@ ApplicationWindow {
     Timer{
         id:processingtimer;
         interval: 60000;
-        onTriggered: signalCenter.loadFailed("erro");
+        onTriggered: {
+            signalcenter.loadFailed("erro");
+            app.loading = false;
+        }
     }
     HomePage{
         id:homepage;
@@ -54,10 +57,9 @@ ApplicationWindow {
             signalcenter.showMessage(errorstring);
         }
     }
+
     Component.onCompleted:{
-        Script.setsignalcenter(signalcenter);
-        Script.initialize(utility);
-        Script.usermodel = usermodel;
+        Script.initialize(signalcenter, utility, httprequest, usermodel);
         loadUserData(userdata.getUserData("UserData"));
         Script.checkAccessToken();
         pageStack.push(homepage);
