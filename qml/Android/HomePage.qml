@@ -90,8 +90,6 @@ Page {
             spacing: Units.dp(16);
             IconButton{
                 iconName: "editor/insert_photo";
-                //onClicked: tempdialog.open();
-                //onClicked: picdialog.open();
                 onClicked: utility.selectImage();
             }
             IconButton{

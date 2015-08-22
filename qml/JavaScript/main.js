@@ -153,7 +153,12 @@ function sendText(text){
                 break;
             case "Renren":
                 sendRenrenText(usermodel.get(userindex).accesstoken, text);
+                break;
             }
+        }
+        else{
+            userindex++;
+            textNext(text);
         }
     }
     else userindex = 0;
@@ -165,7 +170,6 @@ function sendWeiboText(accesstoken,text){
 }
 function loadWeiboSendResult(oritxt){
     var obj=JSON.parse(oritxt);
-    //console.log(qstr("Weibo ") +obj.user.name+ qsTr(" send successful"));
     try{
         signalcenter.showMessage(qsTr("Weibo ") +obj.user.name+ qsTr(" send successful"));
     }
@@ -181,7 +185,6 @@ function sendRenrenText(accesstoken,text){
     sendWebRequest(url, loadRenrenSendResult, "POST", postText);
 }
 function loadRenrenSendResult(oritxt){
-    console.log(oritxt)
     var obj = JSON.parse(oritxt);
     try{
         signalcenter.showMessage(qsTr("Renren ") + obj.response.ownerId +qsTr(" send successful"));
@@ -191,6 +194,9 @@ function loadRenrenSendResult(oritxt){
     }
     userindex++;
     sendText(obj.response.content);
+}
+function textNext(text){
+    sendText(text);
 }
 
 var imageDate;
@@ -207,6 +213,10 @@ function sendImage(text, image) {
                 userindex++;
                 break;
             }
+        }
+        else{
+            userindex++;
+            imageNext(text, image);
         }
     }
     else {
@@ -225,6 +235,9 @@ function loadWeiboSendImageResult(oritxt){
     }
     userindex++;
     sendImage(obj.text, imageDate);
+}
+function imageNext(text, image){
+    sendImage(text, image);
 }
 
 //版本检查
