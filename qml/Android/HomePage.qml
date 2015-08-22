@@ -187,6 +187,10 @@ Page {
         onSendWeiboImageFinished:{
             Script.loadWeiboSendImageResult(oritxt);
         }
+        onSendRenrenImageFinished:{
+            Script.loadRenrenSendImageResult(oritxt);
+        }
+
         onStatusChanged:{
             if(httprequest.status == 0) {
                 app.loading = false;

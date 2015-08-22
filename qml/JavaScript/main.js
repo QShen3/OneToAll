@@ -46,12 +46,6 @@ function sendWebRequest(url, callback, method, postdata) {
         xmlhttp.setRequestHeader("Content-Length", postdata.length);
         xmlhttp.send(postdata);
     }
-    if(method === "POSTFILE") {
-        xmlhttp.open("POST", url);
-        xmlhttp.setRequestHeader("Content-Type", "multipart/form-data");
-        xmlhttp.setRequestHeader("Content-Length", postdata.length);
-        xmlhttp.send(postdata);
-    }
 }
 
 var usermodel;
@@ -69,7 +63,7 @@ function getAccessToken(from,code){
         break;
     case "Renren" :
         var url = "https://graph.renren.com/oauth/token";
-        var postData = "grant_type=authorization_code&client_id=f80960de14314cd1abd3cb6a7967db92&client_secret=" + renrenSecret() + "&redirect_uri=http://graph.renren.com/oauth/login_success.html&code="+code;
+        var postData = "grant_type=authorization_code&client_id=f80960de14314cd1abd3cb6a7967db92&client_secret=" + renrenSecret() + "&redirect_uri=http://graph.renren.com/oauth/login_success.html&code="+code+"&scope=read_user_photo+photo_upload";
         //console.log(postData);
         sendWebRequest(url,loadRenrenAccessToken,"POST", postData);
         break;
@@ -209,8 +203,7 @@ function sendImage(text, image) {
                 httprequest.sendWeiboImage(usermodel.get(userindex).accesstoken, image, text);
                 break;
             case "Renren":
-                //sendRenrenImage(usermodel.get(userindex).accesstoken, text, image);
-                userindex++;
+                httprequest.sendRenrenImage(usermodel.get(userindex).accesstoken, image, text);
                 break;
             }
         }
@@ -236,6 +229,19 @@ function loadWeiboSendImageResult(oritxt){
     userindex++;
     sendImage(obj.text, imageDate);
 }
+function loadRenrenSendImageResult(oritxt){
+    console.log(oritxt);
+    var obj = JSON.parse(oritxt);
+    try{
+        signalcenter.showMessage(qsTr("Renren ") + obj.response.ownerId +qsTr(" send successful"));
+    }
+    catch(e){
+        signalcenter.showMessage(qsTr("Renren ") + obj.error.message);
+    }
+    userindex++;
+    sendImage(obj.photo.description, imageDate);
+}
+
 function imageNext(text, image){
     sendImage(text, image);
 }

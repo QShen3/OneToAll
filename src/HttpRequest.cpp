@@ -50,6 +50,44 @@ void HttpRequest::loadSendWeiboImageResult(QNetworkReply *reply)
     delete reply;
 }
 
+void HttpRequest::sendRenrenImage(QString accessToken, QString fileName, QString text)
+{
+    QUrl url("https://api.renren.com/v2/photo/upload");
+    connect(networkManager,SIGNAL(finished(QNetworkReply*)),this,SLOT(loadSendRenrenImageResult(QNetworkReply*)));
+
+    QHttpMultiPart *multiPart = new QHttpMultiPart(QHttpMultiPart::FormDataType);
+    QHttpPart filePart;
+    QHttpPart textPart;
+    QHttpPart atPart;
+
+    QFile *file = new QFile(fileName);
+    filePart.setHeader(QNetworkRequest::ContentTypeHeader,QVariant("image/jpeg"));
+    filePart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=\"file\"; filename=\"test.jpg\""));
+    file->open(QIODevice::ReadOnly);
+    filePart.setBodyDevice(file);
+    file->setParent(multiPart);
+
+    textPart.setHeader(QNetworkRequest::ContentTypeHeader, QVariant("text/plain"));
+    textPart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=\"description\""));
+    textPart.setBody(text.toLatin1());
+
+    atPart.setHeader(QNetworkRequest::ContentTypeHeader, QVariant("text/plain"));
+    atPart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=\"access_token\""));
+    atPart.setBody(accessToken.toLatin1());
+
+    multiPart->append(filePart);
+    multiPart->append(textPart);
+    multiPart->append(atPart);
+    sendRequest(url,POSTFile,"", multiPart);
+}
+void HttpRequest::loadSendRenrenImageResult(QNetworkReply *reply)
+{
+    emit sendRenrenImageFinished(reply->readAll());
+    disconnect(networkManager,SIGNAL(finished(QNetworkReply*)),this,SLOT(loadSendRenrenImageResult(QNetworkReply*)));
+    setStatus(Idle);
+    delete reply;
+}
+
 void HttpRequest::sendRequest(QUrl url, RequestMethod method, QString text, QHttpMultiPart *data)
 {
     QNetworkRequest networkRequest(url);

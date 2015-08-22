@@ -34,16 +34,18 @@ public:
     void setStatus(RequestStatus newStatus);
 
     Q_INVOKABLE void sendWeiboImage(QString accessToken, QString fileName, QString text);
-   // Q_INVOKABLE void sendRenRenImage(QString fileName, QString text);
+    Q_INVOKABLE void sendRenrenImage(QString accessToken, QString fileName, QString text);
 
 public slots:
     void loadSendWeiboImageResult(QNetworkReply *reply);
+    void loadSendRenrenImageResult(QNetworkReply *reply);
 
 
 signals:
     void statusChanged();
 
     void sendWeiboImageFinished(QByteArray oritxt);
+    void sendRenrenImageFinished(QByteArray oritxt);
 private:
     QNetworkAccessManager *networkManager;
 
