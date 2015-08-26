@@ -17,6 +17,24 @@ Page{
         Label{
             style: "caption";
             color: Theme.primaryColor;
+            text: qsTr("Normal");
+            anchors.left: parent.left;
+            anchors.leftMargin: Units.dp(16);
+        }
+        ListItem.Subtitled{
+            subText: qsTr("Automatically check for new version when the software is opened");
+            text: qsTr("Automatically check for new version");
+            secondaryItem: CheckBox{
+                checked: settings.autoCheckNewVersion;
+                onCheckedChanged: {
+                    settings.autoCheckNewVersion = checked;
+                }
+            }
+        }
+
+        Label{
+            style: "caption";
+            color: Theme.primaryColor;
             text: qsTr("Support");
             anchors.left: parent.left;
             anchors.leftMargin: Units.dp(16);
@@ -24,7 +42,7 @@ Page{
         ListItem.Subtitled{
             subText: qsTr("Click to check new version");
             text: qsTr("New version");
-            onClicked: Script.checkNewVersion();
+            onClicked: Script.checkNewVersion(false);
         }
         ThinDivider{
             anchors.leftMargin: Units.dp(16);
@@ -38,14 +56,9 @@ Page{
     AboutDialog{
         id: aboutdialog;
     }
-    VersionCheckDialog{
-        id:versionCheckDialog;
-    }
+
 
     Keys.onBackPressed: {
         pageStack.pop();
-    }
-    Component.onCompleted: {
-        Script.versionCheckDialog = versionCheckDialog;
     }
 }

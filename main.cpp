@@ -4,6 +4,7 @@
 #include <QTranslator>
 #include <QDebug>
 #include "UserData.h"
+#include "Settings.h"
 #include "Utility.h"
 #include "HttpRequest.h"
 
@@ -19,12 +20,14 @@ int main(int argc, char *argv[])
     app.installTranslator(&translator);
 
     UserData userData;
+    Settings settings;
     Utility utility;
     HttpRequest httpRequest;
 
     QQmlApplicationEngine engine;
 
     engine.rootContext()->setContextProperty("userdata",&userData);
+    engine.rootContext()->setContextProperty("settings", &settings);
     engine.rootContext()->setContextProperty("utility",&utility);
     engine.rootContext()->setContextProperty("httprequest",&httpRequest);
 

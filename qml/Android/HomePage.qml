@@ -90,7 +90,7 @@ Page {
             spacing: Units.dp(16);
             IconButton{
                 iconName: "editor/insert_photo";
-                onClicked: utility.selectImage();
+                onClicked: actionSheet.open();
             }
             IconButton{
                 iconName: "editor/insert_emoticon";
@@ -173,6 +173,25 @@ Page {
         Label{
             text: qsTr("Write added this feature, so stay tuned");
         }
+    }
+    BottomActionSheet{
+        id:actionSheet;
+        title: qsTr("Image");
+        actions: [
+            Action{
+                iconName: "image/photo_camera";
+                name: qsTr("Camera");
+                onTriggered: {
+
+                }
+            },
+            Action{
+                iconName: "image/photo_library";
+                name: qsTr("Photo library");
+                onTriggered: utility.selectImage();
+            }
+
+        ]
     }
 
     Connections{

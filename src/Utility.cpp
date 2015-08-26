@@ -6,6 +6,49 @@
 #endif
 #include "Utility.h"
 
+#ifdef Q_OS_ANDROID
+class ResultReceiver: public QAndroidActivityResultReceiver
+{
+public:
+    ResultReceiver(Utility *arg)
+    {
+        utility = arg;
+    }
+
+    void handleActivityResult(int receiverRequestCode, int resultCode, const QAndroidJniObject & data)
+    {
+        if(receiverRequestCode == 1){
+            if(resultCode == -1){
+                QAndroidJniEnvironment env;
+
+                QAndroidJniObject path= QAndroidJniObject::callStaticObjectMethod(
+                            "com/qshen/onetoall/ImagePicker",
+                            "getUrl",
+                            "(Landroid/content/Intent;)Ljava/lang/String;",
+                            data.object<jobject>());
+
+                emit utility->selectImageFinished(path.toString());
+
+                if(env->ExceptionCheck()){
+                    qDebug()<<"erro";
+                    env->ExceptionDescribe();
+                    env->ExceptionClear();
+                }
+            }
+            else{
+                qDebug()<<"erro";
+            }
+        }
+    }
+
+private:
+    Utility *utility;
+
+};
+#endif
+
+
+
 Utility::Utility(QObject *parent) : QObject(parent)
 {
 #ifdef Q_OS_ANDROID
@@ -58,4 +101,6 @@ QByteArray Utility::getFile(QString url)
     }
     return file.readAll();
 }
+
+
 

@@ -5,12 +5,14 @@ QT += qml quick widgets svg
 SOURCES += main.cpp \
     src/UserData.cpp \
     src/Utility.cpp \
-    src/HttpRequest.cpp
+    src/HttpRequest.cpp \
+    src/Settings.cpp
 
 HEADERS += \
     src/UserData.h \
     src/Utility.h \
-    src/HttpRequest.h
+    src/HttpRequest.h \
+    src/Settings.h
 
 INCLUDEPATH += src
 

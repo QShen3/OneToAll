@@ -239,7 +239,7 @@ function loadRenrenSendImageResult(oritxt){
         signalcenter.showMessage(qsTr("Renren ") + obj.error.message);
     }
     userindex++;
-    sendImage(obj.photo.description, imageDate);
+    sendImage(obj.response.description, imageDate);
 }
 
 function imageNext(text, image){
@@ -248,9 +248,11 @@ function imageNext(text, image){
 
 //版本检查
 var versionCheckDialog;
-function checkNewVersion(){
+function checkNewVersion(isBackground){
     var url = "http://onetoall.sinaapp.com/version.php";
-    sendWebRequest(url, loadCheckNewVersionResult, "GET", "");
+    if(isBackground)
+        sendWebRequest(url, loadCheckNewVersionResultBackground, "GET", "");
+    else sendWebRequest(url, loadCheckNewVersionResult, "GET", "");
 }
 function loadCheckNewVersionResult(oritxt){
     var obj = JSON.parse(oritxt);
@@ -262,4 +264,15 @@ function loadCheckNewVersionResult(oritxt){
         else versionCheckDialog.openDialog(true, obj.armurl)
     }
     else versionCheckDialog.openDialog(false, "");
+}
+
+function loadCheckNewVersionResultBackground(oritxt){
+    var obj = JSON.parse(oritxt);
+    if(obj.versioncode > 2){   //versioncode 2  0.2.0
+        if(utility.platformType === 0){
+
+            versionCheckDialog.openDialog(true, obj.x86url)
+        }
+        else versionCheckDialog.openDialog(true, obj.armurl)
+    }
 }
