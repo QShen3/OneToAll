@@ -12,7 +12,9 @@ class Utility : public QObject
     Q_PROPERTY(PlatformType platformType READ platformType)
 
     Q_ENUMS(PlatformType)
-public:
+
+    friend class ResultReceiver;
+public:   
     enum PlatformType{
         Andriod_x86,
         Andriod_armv7
@@ -24,6 +26,7 @@ public:
     PlatformType platformType() const;
 
     Q_INVOKABLE void selectImage();
+    Q_INVOKABLE void captureImage();
     Q_INVOKABLE QByteArray getFile(QString url);
 
 signals:
@@ -33,6 +36,8 @@ private:
     PlatformType m_platformType;
 #ifdef Q_OS_ANDROID
     ResultReceiver *resultReceiver;
+
+    QAndroidJniObject imageName;
 #endif
 };
 

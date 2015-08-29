@@ -43,10 +43,22 @@ bool Settings::isAutoCheckNewVersion()
 {
     return m_autoCheckNewVersion;
 }
+bool Settings::isFirstStart()
+{
+    return m_firstStart;
+}
+
 void Settings::setAutoCheckNewVersion(bool arg)
 {
     if (m_autoCheckNewVersion != arg){
         m_autoCheckNewVersion = arg;
-        emit AutoCheckNewVersionChanged();
+        emit autoCheckNewVersionChanged();
+    }
+}
+void Settings::setFirstStart(bool arg)
+{
+    if(m_firstStart != arg){
+        m_firstStart = arg;
+        emit firstStartChanged();
     }
 }

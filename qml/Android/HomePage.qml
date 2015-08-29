@@ -63,6 +63,12 @@ Page {
             }
             height: hasPic ? Units.dp(96) : 0;
             width: sourceSize.width / sourceSize.height * height;
+            MouseArea{
+                anchors.fill: parent;
+                onClicked: {
+                    actionSheet.open();
+                }
+            }
         }
         Label{
             id:counter;
@@ -182,16 +188,28 @@ Page {
                 iconName: "image/photo_camera";
                 name: qsTr("Camera");
                 onTriggered: {
-
+                    utility.captureImage();
                 }
             },
             Action{
                 iconName: "image/photo_library";
                 name: qsTr("Photo library");
                 onTriggered: utility.selectImage();
+            },
+            Action{
+                iconName: "action/delete";
+                name: qsTr("Delete");
+                visible: hasPic;
+                onTriggered: {
+                    hasPic = false;
+                    actionSheet.close();
+                }
             }
 
         ]
+    }
+    ConfirmDialog{
+        id: confirmdialog;
     }
 
     Connections{

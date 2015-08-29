@@ -1,6 +1,7 @@
 package com.qshen.onetoall;
 
 import java.lang.String;
+import java.io.File;
 import android.os.Environment;
 import android.os.Build;
 import android.content.Intent;
@@ -28,9 +29,24 @@ public class ImagePicker extends org.qtproject.qt5.android.bindings.QtActivity
         return Intent.createChooser(intent, "Select Image");
     }
 
+    public static Intent createCaptureImageIntent(String imageName) {
+        Intent intent = new Intent( MediaStore.ACTION_IMAGE_CAPTURE);
+
+        File savedDir = Environment.getExternalStorageDirectory() ;
+        File savedImageFile = new File(savedDir, "/DCIM/Camera/" + imageName);
+
+        System.out.println(savedImageFile);
+        Uri savedImageUri = Uri.fromFile(savedImageFile);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, savedImageUri);
+
+        return intent;
+    }
+
     public static String getUrl( Intent intent) {
-        System.out.println("Hello world");
+        //System.out.println("Hello world");
         Uri uri = intent.getData();
+
+
 
         final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
 

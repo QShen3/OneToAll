@@ -17,26 +17,39 @@ public:
 
     void handleActivityResult(int receiverRequestCode, int resultCode, const QAndroidJniObject & data)
     {
+        if(resultCode != -1){
+            qDebug()<<"erro";
+            return;
+        }
         if(receiverRequestCode == 1){
-            if(resultCode == -1){
-                QAndroidJniEnvironment env;
+            QAndroidJniEnvironment env;
 
-                QAndroidJniObject path= QAndroidJniObject::callStaticObjectMethod(
-                            "com/qshen/onetoall/ImagePicker",
-                            "getUrl",
-                            "(Landroid/content/Intent;)Ljava/lang/String;",
-                            data.object<jobject>());
+            QAndroidJniObject path= QAndroidJniObject::callStaticObjectMethod(
+                        "com/qshen/onetoall/ImagePicker",
+                        "getUrl",
+                        "(Landroid/content/Intent;)Ljava/lang/String;",
+                        data.object<jobject>());
 
-                emit utility->selectImageFinished(path.toString());
+            qDebug()<<path.toString();
 
-                if(env->ExceptionCheck()){
-                    qDebug()<<"erro";
-                    env->ExceptionDescribe();
-                    env->ExceptionClear();
-                }
-            }
-            else{
+            emit utility->selectImageFinished(path.toString());
+
+            if(env->ExceptionCheck()){
                 qDebug()<<"erro";
+                env->ExceptionDescribe();
+                env->ExceptionClear();
+            }
+
+        }
+        else if (receiverRequestCode == 2) {
+            QAndroidJniEnvironment env;
+
+            emit utility->selectImageFinished("/storage/emulated/0/DCIM/Camera/" + (utility->imageName).toString());
+
+            if(env->ExceptionCheck()){
+                qDebug()<<"erro";
+                env->ExceptionDescribe();
+                env->ExceptionClear();
             }
         }
     }
@@ -89,7 +102,29 @@ void Utility::selectImage()
         env->ExceptionClear();
     }
     QtAndroid::startActivity( intent, 1, resultReceiver );
+#endif
+}
 
+void Utility::captureImage()
+{
+#ifdef Q_OS_ANDROID
+    imageName = QAndroidJniObject::fromString((QDateTime::currentDateTime()).toString("yyyyMMddHHmmss")+".jpg");
+
+    if(resultReceiver == NULL)
+        resultReceiver = new ResultReceiver(this);
+    QAndroidJniEnvironment env;
+
+    QAndroidJniObject intent = QAndroidJniObject::callStaticObjectMethod(
+                "com/qshen/onetoall/ImagePicker",
+                "createCaptureImageIntent",
+                "(Ljava/lang/String;)Landroid/content/Intent;",
+                imageName.object<jstring>());
+
+    if(env->ExceptionCheck()){
+        qDebug()<<"erro";
+        env->ExceptionClear();
+    }
+    QtAndroid::startActivity( intent, 2, resultReceiver );
 #endif
 }
 
