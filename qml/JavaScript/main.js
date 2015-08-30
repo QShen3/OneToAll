@@ -256,7 +256,7 @@ function checkNewVersion(isBackground){
 }
 function loadCheckNewVersionResult(oritxt){
     var obj = JSON.parse(oritxt);
-    if(obj.versioncode > 2){   //versioncode 2  0.2.0
+    if(obj.versioncode > 3){   //versioncode 3  0.3.0
         if(utility.platformType === 0){
 
             versionCheckDialog.openDialog(true, obj.x86url)
@@ -268,7 +268,7 @@ function loadCheckNewVersionResult(oritxt){
 
 function loadCheckNewVersionResultBackground(oritxt){
     var obj = JSON.parse(oritxt);
-    if(obj.versioncode > 2){   //versioncode 2  0.2.0
+    if(obj.versioncode > 3){   //versioncode 3  0.3.0
         if(utility.platformType === 0){
 
             versionCheckDialog.openDialog(true, obj.x86url)
