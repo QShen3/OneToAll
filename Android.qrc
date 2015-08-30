@@ -8,5 +8,9 @@
         <file>qml/Android/Delegate/UserComponent.qml</file>
         <file>qml/Android/Dialog/AboutDialog.qml</file>
         <file>qml/Android/Dialog/ChooseDialog.qml</file>
+        <file>qml/Android/SettingPage.qml</file>
+        <file>qml/Android/Dialog/VersionCheckDialog.qml</file>
+        <file>qml/Android/Dialog/ConfirmDialog.qml</file>
+        <file>qml/Android/Dialog/NewFeatureDialog.qml</file>
     </qresource>
 </RCC>

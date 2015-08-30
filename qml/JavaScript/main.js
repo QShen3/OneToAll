@@ -1,9 +1,16 @@
 .pragma library
 Qt.include("key.js")
 var signalcenter;
-function setsignalcenter(mycenter){
-    signalcenter=mycenter;
+var utility;
+var httprequest;
+
+function initialize(sc, ut, hr, um){
+    signalcenter = sc;
+    utility = ut;
+    httprequest = hr;
+    usermodel = um;
 }
+
 function cutStr(string,start,end){
     string=string.toString();
     if(end)
@@ -43,6 +50,7 @@ function sendWebRequest(url, callback, method, postdata) {
 
 var usermodel;
 
+//授权相关
 var accessToken;
 var uid;
 var userindex = 0;
@@ -55,7 +63,7 @@ function getAccessToken(from,code){
         break;
     case "Renren" :
         var url = "https://graph.renren.com/oauth/token";
-        var postData = "grant_type=authorization_code&client_id=f80960de14314cd1abd3cb6a7967db92&client_secret=" + renrenSecret() + "&redirect_uri=http://graph.renren.com/oauth/login_success.html&code="+code;
+        var postData = "grant_type=authorization_code&client_id=f80960de14314cd1abd3cb6a7967db92&client_secret=" + renrenSecret() + "&redirect_uri=http://graph.renren.com/oauth/login_success.html&code="+code+"&scope=read_user_photo+photo_upload";
         //console.log(postData);
         sendWebRequest(url,loadRenrenAccessToken,"POST", postData);
         break;
@@ -112,6 +120,7 @@ function loadRenrenRefreshResult(oritxt){
     checkAccessToken();
 }
 
+//获取用户信息
 function getUserInfo(from, uid, accesstoken){
     switch(from){
     case "Weibo":
@@ -128,7 +137,7 @@ function loadWeiboUserInfo(oritxt){
 }
 
 
-
+//发送文字信息
 function sendText(text){
     if(usermodel.count > userindex){
         if(usermodel.get(userindex).checked){
@@ -138,7 +147,12 @@ function sendText(text){
                 break;
             case "Renren":
                 sendRenrenText(usermodel.get(userindex).accesstoken, text);
+                break;
             }
+        }
+        else{
+            userindex++;
+            textNext(text);
         }
     }
     else userindex = 0;
@@ -150,16 +164,14 @@ function sendWeiboText(accesstoken,text){
 }
 function loadWeiboSendResult(oritxt){
     var obj=JSON.parse(oritxt);
-    //console.log(qstr("Weibo ") +obj.user.name+ qsTr(" send successful"));
     try{
         signalcenter.showMessage(qsTr("Weibo ") +obj.user.name+ qsTr(" send successful"));
     }
     catch(e){
-        signalcenter.showMessage(obj.error);
+        signalcenter.showMessage(qsTr("Weibo ") + obj.error);
     }
     userindex++;
     sendText(obj.text);
-    console.log("here");
 }
 function sendRenrenText(accesstoken,text){
     var url = "https://api.renren.com/v2/status/put";
@@ -172,9 +184,95 @@ function loadRenrenSendResult(oritxt){
         signalcenter.showMessage(qsTr("Renren ") + obj.response.ownerId +qsTr(" send successful"));
     }
     catch(e){
-        signalcenter.showMessage(obj.error.message);
+        signalcenter.showMessage(qsTr("Renren ") + obj.error.message);
     }
     userindex++;
     sendText(obj.response.content);
 }
+function textNext(text){
+    sendText(text);
+}
 
+var imageDate;
+function sendImage(text, image) {
+    if(usermodel.count > userindex){
+        imageDate = image;
+        if(usermodel.get(userindex).checked){
+            switch(usermodel.get(userindex).from){
+            case "Weibo":
+                httprequest.sendWeiboImage(usermodel.get(userindex).accesstoken, image, text);
+                break;
+            case "Renren":
+                httprequest.sendRenrenImage(usermodel.get(userindex).accesstoken, image, text);
+                break;
+            }
+        }
+        else{
+            userindex++;
+            imageNext(text, image);
+        }
+    }
+    else {
+        userindex = 0;
+        imageDate = "NULL";
+    }
+}
+function loadWeiboSendImageResult(oritxt){
+    var obj=JSON.parse(oritxt);
+    //console.log(qstr("Weibo ") +obj.user.name+ qsTr(" send successful"));
+    try{
+        signalcenter.showMessage(qsTr("Weibo ") + obj.user.name+ qsTr(" send successful"));
+    }
+    catch(e){
+        signalcenter.showMessage(qsTr("Weibo ") + obj.error);
+    }
+    userindex++;
+    sendImage(obj.text, imageDate);
+}
+function loadRenrenSendImageResult(oritxt){
+    console.log(oritxt);
+    var obj = JSON.parse(oritxt);
+    try{
+        signalcenter.showMessage(qsTr("Renren ") + obj.response.ownerId +qsTr(" send successful"));
+    }
+    catch(e){
+        signalcenter.showMessage(qsTr("Renren ") + obj.error.message);
+    }
+    userindex++;
+    sendImage(obj.response.description, imageDate);
+}
+
+function imageNext(text, image){
+    sendImage(text, image);
+}
+
+//版本检查
+var versionCheckDialog;
+function checkNewVersion(isBackground){
+    var url = "http://onetoall.sinaapp.com/version.php";
+    if(isBackground)
+        sendWebRequest(url, loadCheckNewVersionResultBackground, "GET", "");
+    else sendWebRequest(url, loadCheckNewVersionResult, "GET", "");
+}
+function loadCheckNewVersionResult(oritxt){
+    var obj = JSON.parse(oritxt);
+    if(obj.versioncode > 4){   //versioncode 4  0.5.1
+        if(utility.platformType === 0){
+
+            versionCheckDialog.openDialog(true, obj.x86url)
+        }
+        else versionCheckDialog.openDialog(true, obj.armurl)
+    }
+    else versionCheckDialog.openDialog(false, "");
+}
+
+function loadCheckNewVersionResultBackground(oritxt){
+    var obj = JSON.parse(oritxt);
+    if(obj.versioncode > 4){   //versioncode 4  0.5.1
+        if(utility.platformType === 0){
+
+            versionCheckDialog.openDialog(true, obj.x86url)
+        }
+        else versionCheckDialog.openDialog(true, obj.armurl)
+    }
+}

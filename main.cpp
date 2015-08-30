@@ -4,6 +4,9 @@
 #include <QTranslator>
 #include <QDebug>
 #include "UserData.h"
+#include "Settings.h"
+#include "Utility.h"
+#include "HttpRequest.h"
 
 int main(int argc, char *argv[])
 {
@@ -12,17 +15,22 @@ int main(int argc, char *argv[])
     QString locale = QLocale::system().name();
     QTranslator translator;
     if(!translator.load(QString("onetoall_") + locale,":/i18n")){
-        qDebug()<<"here";
+        qDebug()<<"translator load erro";
     }
     app.installTranslator(&translator);
 
-    UserData userdata;
+    UserData userData;
+    Settings settings;
+    Utility utility;
+    HttpRequest httpRequest;
 
     QQmlApplicationEngine engine;
 
-    engine.rootContext()->setContextProperty("userdata",&userdata);
+    engine.rootContext()->setContextProperty("userdata",&userData);
+    engine.rootContext()->setContextProperty("settings", &settings);
+    engine.rootContext()->setContextProperty("utility",&utility);
+    engine.rootContext()->setContextProperty("httprequest",&httpRequest);
 
-    //qDebug()<<"here";
     engine.load(QUrl(QStringLiteral("qrc:/qml/Android/main.qml")));
 
     return app.exec();

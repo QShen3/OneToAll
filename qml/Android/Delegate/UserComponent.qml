@@ -78,4 +78,7 @@ BaseListItem{
             }
         }
     }
+    onPressAndHold: {
+        confirmdialog.openDialog(index);
+    }
 }
