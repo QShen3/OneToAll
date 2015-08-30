@@ -31,7 +31,7 @@ void HttpRequest::sendWeiboImage(QString accessToken, QString fileName, QString 
 
     textPart.setHeader(QNetworkRequest::ContentTypeHeader, QVariant("text/plain"));
     textPart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=\"status\""));
-    textPart.setBody(text.toLatin1());
+    textPart.setBody(text.toUtf8());
 
     atPart.setHeader(QNetworkRequest::ContentTypeHeader, QVariant("text/plain"));
     atPart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=\"access_token\""));
@@ -69,7 +69,7 @@ void HttpRequest::sendRenrenImage(QString accessToken, QString fileName, QString
 
     textPart.setHeader(QNetworkRequest::ContentTypeHeader, QVariant("text/plain"));
     textPart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=\"description\""));
-    textPart.setBody(text.toLatin1());
+    textPart.setBody(text.toUtf8());
 
     atPart.setHeader(QNetworkRequest::ContentTypeHeader, QVariant("text/plain"));
     atPart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=\"access_token\""));
