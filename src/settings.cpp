@@ -18,6 +18,7 @@ void Settings::loadSettings()
     qDebug() << "Loading settings...";
     if (settings){
         m_autoCheckNewVersion = settings->value("autoCheckNewVersion", true).toBool();
+        m_firstStart = settings->value("firstStart",true).toBool();
     }
     else qDebug() << "settings load failed...";
 }
@@ -27,6 +28,7 @@ void Settings::saveSettings()
     qDebug() << "Saving settins...";
     if (settings){
         settings->setValue("autoCheckNewVersion", m_autoCheckNewVersion);
+        settings->setValue("firstStart",m_firstStart);
     }
     else qDebug() << "settings save failed...";
 }

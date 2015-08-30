@@ -39,6 +39,9 @@ ApplicationWindow {
     VersionCheckDialog{
         id:versionCheckDialog;
     }
+    NewFeatureDialog{
+        id:newfeaturedialog;
+    }
 
     ListModel{
         id:usermodel;
@@ -71,7 +74,10 @@ ApplicationWindow {
         if(settings.autoCheckNewVersion){
             Script.checkNewVersion(true);
         }
-
+        if(settings.firstStart){
+            newfeaturedialog.open();
+            settings.firstStart = false;
+        }
         pageStack.push(homepage);
     }
     function saveUserData() {
