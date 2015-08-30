@@ -1,5 +1,5 @@
 <RCC>
-    <qresource lang="qml" prefix="/">
+    <qresource prefix="/" lang="qml">
         <file>qml/Android/HomePage.qml</file>
         <file>qml/Android/LoginPage.qml</file>
         <file>qml/Android/main.qml</file>
@@ -10,5 +10,7 @@
         <file>qml/Android/Dialog/ChooseDialog.qml</file>
         <file>qml/Android/SettingPage.qml</file>
         <file>qml/Android/Dialog/VersionCheckDialog.qml</file>
+        <file>qml/Android/Dialog/ConfirmDialog.qml</file>
+        <file>qml/Android/Dialog/NewFeatureDialog.qml</file>
     </qresource>
 </RCC>

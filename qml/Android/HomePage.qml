@@ -1,4 +1,5 @@
 import QtQuick 2.4
+import QtQuick.Dialogs 1.2
 import Material 0.1
 import "Delegate"
 import "Dialog"
@@ -8,7 +9,9 @@ Page {
     id: homepage;
     title: "OneToAll";
     property string uid;
-    property string accessToken;   
+    property string accessToken;
+
+    property bool hasPic : false;
     actions: [
         Action{
             iconName: "action/settings";
@@ -31,7 +34,7 @@ Page {
                 left: parent.left;
                 right: parent.right;
                 top: parent.top;
-                bottom: counter.top;
+                bottom: picture.top;
                 margins: Units.dp(20);
             }
             contentHeight: inputtext.height;
@@ -50,6 +53,22 @@ Page {
         }
         Scrollbar{
             flickableItem: textflickable;
+        }
+        Image{
+            id:picture;
+            anchors{
+                left: parent.left;
+                bottom: counter.top;
+                margins: Units.dp(20);
+            }
+            height: hasPic ? Units.dp(96) : 0;
+            width: sourceSize.width / sourceSize.height * height;
+            MouseArea{
+                anchors.fill: parent;
+                onClicked: {
+                    actionSheet.open();
+                }
+            }
         }
         Label{
             id:counter;
@@ -77,7 +96,7 @@ Page {
             spacing: Units.dp(16);
             IconButton{
                 iconName: "editor/insert_photo";
-                onClicked: tempdialog.open();
+                onClicked: actionSheet.open();
             }
             IconButton{
                 iconName: "editor/insert_emoticon";
@@ -98,8 +117,14 @@ Page {
             textColor: Theme.primaryColor;
             text: qsTr("Send");
             onClicked: {
-                inputtext.focus = false;
-                Script.sendText(inputtext.text);
+                if(!hasPic){
+                    inputtext.focus = false;
+                    Script.sendText(inputtext.text);
+                }
+                else {
+                    inputtext.focus = false;
+                    Script.sendImage(inputtext.text , Script.cutStr(picture.source, 7) );
+                }
             }
         }
     }
@@ -153,6 +178,67 @@ Page {
         hasActions: false;
         Label{
             text: qsTr("Write added this feature, so stay tuned");
+        }
+    }
+    BottomActionSheet{
+        id:actionSheet;
+        title: qsTr("Image");
+        actions: [
+            Action{
+                iconName: "image/photo_camera";
+                name: qsTr("Camera");
+                onTriggered: {
+                    utility.captureImage();
+                }
+            },
+            Action{
+                iconName: "image/photo_library";
+                name: qsTr("Photo library");
+                onTriggered: utility.selectImage();
+            },
+            Action{
+                iconName: "action/delete";
+                name: qsTr("Delete");
+                visible: hasPic;
+                onTriggered: {
+                    hasPic = false;
+                    actionSheet.close();
+                }
+            }
+
+        ]
+    }
+    ConfirmDialog{
+        id: confirmdialog;
+    }
+
+    Connections{
+        target: utility;
+        onSelectImageFinished:{
+            picture.source = "file://"+imageUrl;
+            hasPic = true;
+        }
+    }
+    Connections{
+        target: httprequest;
+        onSendWeiboImageFinished:{
+            Script.loadWeiboSendImageResult(oritxt);
+        }
+        onSendRenrenImageFinished:{
+            Script.loadRenrenSendImageResult(oritxt);
+        }
+
+        onStatusChanged:{
+            if(httprequest.status == 0) {
+                app.loading = false;
+                loadingind.close();
+                processingtimer.stop();
+            }
+            else {
+                app.loading = true;
+                loadingind.open();
+                processingtimer.restart();
+            }
         }
     }
 
