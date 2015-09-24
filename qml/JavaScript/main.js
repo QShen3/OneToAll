@@ -115,6 +115,7 @@ function refreshRenrenAccessToken(rT){
 }
 function loadRenrenRefreshResult(oritxt){
     var obj = JSON.parse(oritxt);
+    //console.log(usermodel.get(userindex).refreshtoken);
     usermodel.set(userindex, {"refreshtoken" : obj.refresh_token, "accesstoken" : obj.access_token});
     userindex++;
     checkAccessToken();
@@ -213,8 +214,8 @@ function sendImage(text, image) {
         }
     }
     else {
-        userindex = 0;
-        imageDate = "NULL";
+        userindex = 0;       
+        //imageDate = "";
     }
 }
 function loadWeiboSendImageResult(oritxt){
@@ -225,6 +226,7 @@ function loadWeiboSendImageResult(oritxt){
     }
     catch(e){
         signalcenter.showMessage(qsTr("Weibo ") + obj.error);
+        console.log("erro" + obj.error);
     }
     userindex++;
     sendImage(obj.text, imageDate);
@@ -258,10 +260,14 @@ function loadCheckNewVersionResult(oritxt){
     var obj = JSON.parse(oritxt);
     if(obj.versioncode > 4){   //versioncode 4  0.5.1
         if(utility.platformType === 0){
-
-            versionCheckDialog.openDialog(true, obj.x86url)
+            versionCheckDialog.openDialog(true, obj.x86url);
         }
-        else versionCheckDialog.openDialog(true, obj.armurl)
+        else if(utility.platformType === 1){
+            versionCheckDialog.openDialog(true, obj.armurl);
+        }
+        else if(utility.platformType === 2){
+            versionCheckDialog.openDialog(true, obj.symbian3);
+        }
     }
     else versionCheckDialog.openDialog(false, "");
 }
@@ -270,9 +276,13 @@ function loadCheckNewVersionResultBackground(oritxt){
     var obj = JSON.parse(oritxt);
     if(obj.versioncode > 4){   //versioncode 4  0.5.1
         if(utility.platformType === 0){
-
             versionCheckDialog.openDialog(true, obj.x86url)
         }
-        else versionCheckDialog.openDialog(true, obj.armurl)
+        else if(utility.platformType === 1){
+            versionCheckDialog.openDialog(true, obj.armurl)
+        }
+        else if(utility.platformType === 2){
+            versionCheckDialog.openDialog(true, obj.symbian3);
+        }
     }
 }

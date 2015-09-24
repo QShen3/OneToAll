@@ -65,6 +65,7 @@ bld.inf
 *.sis
 ABLD.BAT
 *.mk
+*.desktop
 
 # debian-es
 
