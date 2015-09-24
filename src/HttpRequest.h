@@ -1,11 +1,15 @@
 #ifndef HTTPREQUEST
 #define HTTPREQUEST
 #include <QObject>
+#if(QT_VERSION<0x050000)
+#include <Qurl>
+#endif
 
 class QNetworkAccessManager;
 class QNetworkReply;
 class QFile;
 class QHttpMultiPart;
+
 
 class HttpRequest : public QObject
 {
@@ -28,7 +32,7 @@ public:
         POSTFile
     };
 
-    void sendRequest(QUrl url, RequestMethod method, QString text = "", QHttpMultiPart *data = NULL);
+    void sendRequest(QUrl url, RequestMethod method, QByteArray text = "", QHttpMultiPart *data = NULL);
 
     RequestStatus status();
     void setStatus(RequestStatus newStatus);

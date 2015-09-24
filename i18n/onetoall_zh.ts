@@ -24,12 +24,20 @@ My e-mail: qazxdrcssc2006@163.com</source>
 
 我的邮箱：qazxdrcssc2006@163.com</translation>
     </message>
+    <message>
+        <source>OK</source>
+        <translation>确定</translation>
+    </message>
 </context>
 <context>
     <name>ChooseDialog</name>
     <message>
         <source>Add an account</source>
         <translation>添加账号</translation>
+    </message>
+    <message>
+        <source>Cancle</source>
+        <translation>取消</translation>
     </message>
 </context>
 <context>
@@ -41,6 +49,14 @@ My e-mail: qazxdrcssc2006@163.com</source>
     <message>
         <source>Are you sure you want to delete this account?</source>
         <translation>你确定你想删除这个账户？</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>确定</translation>
+    </message>
+    <message>
+        <source>Cancle</source>
+        <translation>取消</translation>
     </message>
 </context>
 <context>
@@ -77,6 +93,25 @@ My e-mail: qazxdrcssc2006@163.com</source>
         <source>Delete</source>
         <translation>删除</translation>
     </message>
+    <message>
+        <source>send</source>
+        <translation>发送</translation>
+    </message>
+    <message>
+        <source>Account</source>
+        <translation>账号</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>确定</translation>
+    </message>
+</context>
+<context>
+    <name>LoadingIndicator</name>
+    <message>
+        <source>loading...</source>
+        <translation>加载中……</translation>
+    </message>
 </context>
 <context>
     <name>LoginPage</name>
@@ -104,6 +139,10 @@ V0.5.0
 1.添加发送图片功能
 2.长按账户可以删除账户
 3.修复一些BUG</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>确定</translation>
     </message>
 </context>
 <context>
@@ -161,6 +200,14 @@ V0.5.0
     <message>
         <source>The current version is the latest version</source>
         <translation>当前版本为最新版本</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>确定</translation>
+    </message>
+    <message>
+        <source>Cancle</source>
+        <translation>取消</translation>
     </message>
 </context>
 <context>

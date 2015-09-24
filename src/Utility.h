@@ -17,7 +17,8 @@ class Utility : public QObject
 public:   
     enum PlatformType{
         Andriod_x86,
-        Andriod_armv7
+        Andriod_armv7,
+        Symbian3
     };
 
     explicit Utility(QObject *parent = 0);

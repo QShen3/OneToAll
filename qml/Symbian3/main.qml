@@ -1,32 +1,31 @@
-import QtQuick 2.4
-import QtQuick.Controls 1.3
-import QtQuick.Layouts 1.1
-
-import QtQuick.Window 2.2
-
-import Material 0.1
+import QtQuick 1.1
+import com.nokia.symbian 1.1
+import com.nokia.extras 1.1
+import "../JavaScript/main.js" as Script
 import "BaseComponent"
 import "Dialog"
-import "../JavaScript/main.js" as Script
-ApplicationWindow {
-    id:app;
+
+PageStackWindow {
+    id: app;
     property bool loading;
-    visible: true;
-    theme {
-        primaryColor: Palette.colors["blue"]["500"]
-        primaryDarkColor: Palette.colors["blue"]["700"]
-        accentColor: Palette.colors["pink"]["500"]
-        tabHighlightColor: "white"
-    }
+    platformInverted: true;
+
     SignalCenter{
         id:signalcenter;
     }
     LoadingIndicator{
         id:loadingind;
     }
-    Snackbar{
-        id:snackbar;
+    InfoBanner{
+        id: infoBanner;
     }
+    StatusPaneText {
+        id: statusPaneText;
+    }
+    Corners{
+        id:corners;
+    }
+
     Timer{
         id:processingtimer;
         interval: 60000;
@@ -35,6 +34,7 @@ ApplicationWindow {
             app.loading = false;
         }
     }
+
     HomePage{
         id:homepage;
     }
@@ -73,7 +73,8 @@ ApplicationWindow {
         Script.initialize(signalcenter, utility, httprequest, usermodel);
         loadUserData(userdata.getUserData("UserData"));
         Script.checkAccessToken();
-        Script.versionCheckDialog = versionCheckDialog;
+        Script.versionCheckDialog = versionCheckDialog;       
+        pageStack.push(homepage);
         if(settings.autoCheckNewVersion){
             Script.checkNewVersion(true);
         }
@@ -81,9 +82,6 @@ ApplicationWindow {
             newfeaturedialog.open();
             settings.firstStart = false;
         }
-        pageStack.push(homepage);
-
-        console.log(Units.dp(1))
     }
     function saveUserData() {
         var arry=[];
