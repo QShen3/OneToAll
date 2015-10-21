@@ -6,5 +6,6 @@
         <file>qml/pic/Circle.svg</file>
         <file>qml/pic/Renren_logo.svg</file>
         <file>qml/pic/Weibo_logo.svg</file>
+        <file>qml/pic/TencrntWeibo_logo.svg</file>
     </qresource>
 </RCC>

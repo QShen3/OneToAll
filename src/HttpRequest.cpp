@@ -101,14 +101,6 @@ void HttpRequest::sendRenrenImage(QString accessToken, QString fileName, QString
     multiPart->append(atPart);
     sendRequest(url,POSTFile,"", multiPart);
 #else
-
-    /*QFile *file = new QFile(fileName);
-    file->open(QIODevice::ReadOnly);
-    QByteArray data = "file=" + file->readAll();
-    data = data + "&description=" + text.toUtf8() + "&access_token=" + accessToken.toUtf8();
-
-    sendRequest(url, POSTFile, data);
-    delete file;*/
     QFile *file = new QFile(fileName);
     file->open(QIODevice::ReadOnly);
     QByteArray data;
@@ -131,6 +123,38 @@ void HttpRequest::loadSendRenrenImageResult(QNetworkReply *reply)
     setStatus(Idle);
     reply->deleteLater();
     //delete reply;
+}
+
+void HttpRequest::sendTencentWeiboImage(QString accessToken, QString openid, QString fileName, QString text)
+{
+    QUrl url("https://graph.qq.com/t/add_pic_t");
+    connect(networkManager,SIGNAL(finished(QNetworkReply*)),this,SLOT(loadSendTencentWeiboImageResult(QNetworkReply*)));
+
+    QFile *file = new QFile(fileName);
+    file->open(QIODevice::ReadOnly);    
+    QByteArray data;
+    data.append("--boundary_.oOo._MTUwMDc1MzE3Mw==MTg4Mjk1Njk1MzUyMTIwNTY4\r\nContent-Type: image/jpeg\r\nContent-Disposition: form-data; name=\"pic\"; filename=\"test.jpg\"\r\n\r\n");
+    data.append(file->readAll() + "\r\n");    
+    data.append("--boundary_.oOo._MTUwMDc1MzE3Mw==MTg4Mjk1Njk1MzUyMTIwNTY4\r\nContent-Type: text/plain\r\nContent-Disposition: form-data; name=\"content\"\r\n\r\n");
+    data.append(text.toUtf8() + "\r\n");
+    data.append("--boundary_.oOo._MTUwMDc1MzE3Mw==MTg4Mjk1Njk1MzUyMTIwNTY4\r\nContent-Type: text/plain\r\nContent-Disposition: form-data; name=\"access_token\"\r\n\r\n");
+    data.append(accessToken.toUtf8() + "\r\n");
+    data.append("--boundary_.oOo._MTUwMDc1MzE3Mw==MTg4Mjk1Njk1MzUyMTIwNTY4\r\nContent-Type: text/plain\r\nContent-Disposition: form-data; name=\"oauth_consumer_key\"\r\n\r\n");
+    data.append(QByteArray("101258308") + "\r\n");
+    data.append("--boundary_.oOo._MTUwMDc1MzE3Mw==MTg4Mjk1Njk1MzUyMTIwNTY4\r\nContent-Type: text/plain\r\nContent-Disposition: form-data; name=\"openid\"\r\n\r\n");
+    data.append(openid.toUtf8() + "\r\n");
+    data.append("--boundary_.oOo._MTUwMDc1MzE3Mw==MTg4Mjk1Njk1MzUyMTIwNTY4--\r\n");
+    sendTencentRequest(url, data);
+
+    file->deleteLater();
+
+}
+void HttpRequest::loadSendTencentWeiboImageResult(QNetworkReply *reply)
+{
+    emit sendTencentWeiboImageFinished(reply->readAll());
+    disconnect(networkManager,SIGNAL(finished(QNetworkReply*)),this,SLOT(loadSendTencentWeiboImageResult(QNetworkReply*)));
+    setStatus(Idle);
+    reply->deleteLater();
 }
 
 void HttpRequest::sendRequest(QUrl url, RequestMethod method, QByteArray text, QHttpMultiPart *data)
@@ -158,6 +182,15 @@ void HttpRequest::sendRequest(QUrl url, RequestMethod method, QByteArray text, Q
 #endif
         break;
     }
+}
+
+void HttpRequest::sendTencentRequest(QUrl url, QByteArray data)
+{
+    QNetworkRequest networkRequest(url);
+    setStatus(Busy);
+
+    networkRequest.setHeader(QNetworkRequest::ContentTypeHeader, QVariant("multipart/form-data; boundary=boundary_.oOo._MTUwMDc1MzE3Mw==MTg4Mjk1Njk1MzUyMTIwNTY4"));
+    networkManager->post(networkRequest, data);
 }
 
 HttpRequest::RequestStatus HttpRequest::status()

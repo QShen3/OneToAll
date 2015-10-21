@@ -34,5 +34,19 @@ Dialog{
                 z: -1
             }
         }
+        Image{
+            height: Units.dp(48);
+            width: Units.dp(48);
+            source: Qt.resolvedUrl("../../pic/TencrntWeibo_logo.svg");
+            smooth: true;
+            Ink {
+                onClicked: {
+                    pageStack.push(Qt.resolvedUrl("../LoginPage.qml"),{from:"TencentWeibo"});
+                    root.close();
+                }
+                anchors.fill: parent
+                z: -1
+            }
+        }
     }
 }

@@ -83,7 +83,7 @@ ApplicationWindow {
         }
         pageStack.push(homepage);
 
-        console.log(Units.dp(1))
+        //console.log(Units.dp(1))
     }
     function saveUserData() {
         var arry=[];
