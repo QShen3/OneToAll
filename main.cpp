@@ -57,7 +57,14 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("utility",&utility);
     engine.rootContext()->setContextProperty("httprequest",&httpRequest);
 
+#ifdef Q_OS_ANDROID
     engine.load(QUrl(QStringLiteral("qrc:/qml/Android/main.qml")));
+//#elif defined(Q_OS_IOS)
+#elif defined(Q_OS_IOS)
+    qDebug()<<"here";
+    engine.load(QUrl(QStringLiteral("qrc:/qml/IOS/main.qml")));
+#endif
+
 #endif
 
     return app.exec();

@@ -48,7 +48,13 @@ mac{
 }
 
 ios{
-    RESOURCES += Android.qrc
+    RESOURCES += IOS.qrc
+
+    OTHER_FILES += \
+        qml/IOS/*.qml
+
+    include(deployment.pri)
+
 }
 
 android{
