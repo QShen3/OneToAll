@@ -6,6 +6,9 @@
 #include "Settings.h"
 #include "Utility.h"
 #include "HttpRequest.h"
+#ifdef Q_OS_IOS
+#include "UIButton.h"
+#endif
 
 #if QT_VERSION < 0x050000
 #include <QtDeclarative>
@@ -15,6 +18,7 @@
 #else
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
+#include <QQuickView>
 #endif
 
 
@@ -51,6 +55,7 @@ int main(int argc, char *argv[])
     viewer.showExpanded();
 #else
     QQmlApplicationEngine engine;
+    //QQuickView viewer;
 
     engine.rootContext()->setContextProperty("userdata",&userData);
     engine.rootContext()->setContextProperty("settings", &settings);
@@ -59,10 +64,13 @@ int main(int argc, char *argv[])
 
 #ifdef Q_OS_ANDROID
     engine.load(QUrl(QStringLiteral("qrc:/qml/Android/main.qml")));
-//#elif defined(Q_OS_IOS)
+    //viewer.show();
 #elif defined(Q_OS_IOS)
-    qDebug()<<"here";
+    qmlRegisterType<QUIButton>("com.qshen.ios", 0, 1, "UIButton");
     engine.load(QUrl(QStringLiteral("qrc:/qml/IOS/main.qml")));
+
+
+    //viewer.show();
 #endif
 
 #endif

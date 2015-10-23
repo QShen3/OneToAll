@@ -19,7 +19,9 @@ HEADERS += \
     src/UserData.h \
     src/Utility.h \
     src/HttpRequest.h \
-    src/Settings.h
+    src/Settings.h \
+    src/UIButton.h
+
 
 RESOURCES += \
     OneToAll.qrc        #js files and pic files
@@ -48,6 +50,14 @@ mac{
 }
 
 ios{
+    LIBS += -framework Foundation -framework UIKit
+
+    HEADERS += UIButton.h
+
+    OBJECTIVE_SOURCES += \
+        src/UIButton.mm
+
+
     RESOURCES += IOS.qrc
 
     OTHER_FILES += \

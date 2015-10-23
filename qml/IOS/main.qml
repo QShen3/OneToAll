@@ -1,8 +1,7 @@
 import QtQuick 2.4
 import QtQuick.Controls 1.3
-import QtQuick.Layouts 1.1
 
-import QtQuick.Window 2.2
+import com.qshen.ios 0.1
 import "BaseComponent"
 
 import "../JavaScript/main.js" as Script
@@ -10,6 +9,12 @@ ApplicationWindow {
     id:app;
     property bool loading;
     visible: true;
+    Rectangle{
+        anchors.centerIn: parent;
+        width: 100;
+        height: 100;
+        color: "red";
+    }
 
     SignalCenter{
         id:signalcenter;
@@ -33,6 +38,9 @@ ApplicationWindow {
     NewFeatureDialog{
         id:newfeaturedialog;
     }*/
+    UIButton{
+
+    }
 
     ListModel{
         id:usermodel;
@@ -71,7 +79,7 @@ ApplicationWindow {
         }
         //pageStack.push(homepage);
 
-        console.log("here")
+        console.log("hereqml")
     }
     function saveUserData() {
         var arry=[];
