@@ -338,32 +338,54 @@ function checkNewVersion(isBackground){
     else sendWebRequest(url, loadCheckNewVersionResult, "GET", "");
 }
 function loadCheckNewVersionResult(oritxt){
-    var obj = JSON.parse(oritxt);
-    if(obj.versioncode > 4){   //versioncode 4  0.5.1
-        if(utility.platformType === 0){
-            versionCheckDialog.openDialog(true, obj.x86url);
+    var obj = JSON.parse(oritxt);   
+    if(utility.platformType === 0){
+        if(obj.android.versioncode > 4){
+            if(cutStr(utility.getLocale(),0,2) === "zh"){
+                versionCheckDialog.openDialog(true, obj.android.x86url, obj.android.changelog.zh);
+            }
+            else versionCheckDialog.openDialog(true, obj.android.x86url, obj.android.changelog.en);
         }
-        else if(utility.platformType === 1){
-            versionCheckDialog.openDialog(true, obj.armurl);
-        }
-        else if(utility.platformType === 2){
-            versionCheckDialog.openDialog(true, obj.symbian3);
-        }
+        else versionCheckDialog.openDialog(false, "", "");
     }
-    else versionCheckDialog.openDialog(false, "");
+    else if(utility.platformType === 1){
+        if(obj.android.versioncode > 4){
+            if(cutStr(utility.getLocale(),0,2) === "zh")
+                versionCheckDialog.openDialog(true, obj.android.armurl, obj.android.changelog.zh);
+            else versionCheckDialog.openDialog(true, obj.android.armurl, obj.android.changelog.en);
+        }
+        else versionCheckDialog.openDialog(false, "", "");
+    }
+    else if(utility.platformType === 2){
+        if(obj.symbian.versioncode > 4){
+            if(cutStr(utility.getLocale(),0,2) === "zh")
+                versionCheckDialog.openDialog(true, obj.symbian.url, obj.symbian.changelog.zh);
+            else versionCheckDialog.openDialog(true, obj.symbian.url, obj.symbian.changelog.en);
+        }
+        else versionCheckDialog.openDialog(false, "", "");
+    }
 }
-
 function loadCheckNewVersionResultBackground(oritxt){
     var obj = JSON.parse(oritxt);
-    if(obj.versioncode > 4){   //versioncode 4  0.5.1
-        if(utility.platformType === 0){
-            versionCheckDialog.openDialog(true, obj.x86url)
+    if(utility.platformType === 0){
+        if(obj.android.versioncode > 4){
+            if(cutStr(utility.getLocale(),0,2) === "zh")
+                versionCheckDialog.openDialog(true, obj.android.x86url, obj.android.changelog.zh);
+            else versionCheckDialog.openDialog(true, obj.android.x86url, obj.android.changelog.en);
         }
-        else if(utility.platformType === 1){
-            versionCheckDialog.openDialog(true, obj.armurl)
+    }
+    else if(utility.platformType === 1){
+        if(obj.android.versioncode > 4){
+            if(cutStr(utility.getLocale(),0,2) === "zh")
+                versionCheckDialog.openDialog(true, obj.android.armurl, obj.android.changelog.zh);
+            else versionCheckDialog.openDialog(true, obj.android.armurl, obj.android.changelog.en);
         }
-        else if(utility.platformType === 2){
-            versionCheckDialog.openDialog(true, obj.symbian3);
+    }
+    else if(utility.platformType === 2){
+        if(obj.symbian.versioncode > 4){
+            if(cutStr(utility.getLocale(),0,2) === "zh")
+                versionCheckDialog.openDialog(true, obj.symbian.url, obj.symbian.changelog.zh);
+            else versionCheckDialog.openDialog(true, obj.symbian.url, obj.symbian.changelog.en);
         }
     }
 }

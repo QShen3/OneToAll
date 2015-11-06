@@ -31,8 +31,6 @@ Page{
                 pageStack.pop();
             }
             else if(Script.cutStr(url,0,42) === "http://onetoall.sinaapp.com/successful.php"){
-                //console.log(url);
-                //console.log(Script.cutStr(url,43));
                 Script.getAccessToken("TencentWeibo",Script.cutStr(url,43));
                 pageStack.pop();
             }

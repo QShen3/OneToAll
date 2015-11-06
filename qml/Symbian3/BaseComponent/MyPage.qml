@@ -9,12 +9,12 @@ Page {
 
     orientationLock: PageOrientation.LockPortrait;
 
-    Binding {
+    /*Binding {
         target: statusPaneText;
         property: "text";
         value: root.title;
         when: root.visible && root.status === PageStatus.Active;
-    }
+    }*/
 
     Keys.onPressed: {
         if (event.key === Qt.Key_Backspace){

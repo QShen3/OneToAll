@@ -26,6 +26,8 @@ public:
 
     PlatformType platformType() const;
 
+    Q_INVOKABLE QString getLocale();
+
     Q_INVOKABLE void selectImage();
     Q_INVOKABLE void captureImage();
     Q_INVOKABLE QByteArray getFile(QString url);
