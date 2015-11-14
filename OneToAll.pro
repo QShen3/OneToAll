@@ -19,8 +19,7 @@ HEADERS += \
     src/UserData.h \
     src/Utility.h \
     src/HttpRequest.h \
-    src/Settings.h \
-    src/UIButton.h
+    src/Settings.h
 
 
 RESOURCES += \
@@ -54,8 +53,8 @@ ios{
 
     HEADERS += UIButton.h
 
-    OBJECTIVE_SOURCES += \
-        src/UIButton.mm
+#    OBJECTIVE_SOURCES += \
+#        src/UIButton.mm
 
 
     RESOURCES += IOS.qrc
@@ -68,7 +67,6 @@ ios{
 }
 
 android{
-
     QT += androidextras
 
     RESOURCES += Android.qrc      #Android qml
