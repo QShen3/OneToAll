@@ -1,0 +1,6 @@
+<RCC>
+    <qresource lang="qml" prefix="/">
+        <file>qml/IOS/main.qml</file>
+        <file>qml/IOS/BaseComponent/SignalCenter.qml</file>
+    </qresource>
+</RCC>

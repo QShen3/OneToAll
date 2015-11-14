@@ -1,6 +1,9 @@
 import QtQuick 2.4
 import QtQuick.Controls 1.3
 import QtQuick.Layouts 1.1
+
+import QtQuick.Window 2.2
+
 import Material 0.1
 import "BaseComponent"
 import "Dialog"
@@ -79,6 +82,8 @@ ApplicationWindow {
             settings.firstStart = false;
         }
         pageStack.push(homepage);
+
+        //console.log(Units.dp(1))
     }
     function saveUserData() {
         var arry=[];

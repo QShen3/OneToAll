@@ -17,13 +17,16 @@ class Utility : public QObject
 public:   
     enum PlatformType{
         Andriod_x86,
-        Andriod_armv7
+        Andriod_armv7,
+        Symbian3
     };
 
     explicit Utility(QObject *parent = 0);
     ~Utility();
 
     PlatformType platformType() const;
+
+    Q_INVOKABLE QString getLocale();
 
     Q_INVOKABLE void selectImage();
     Q_INVOKABLE void captureImage();
