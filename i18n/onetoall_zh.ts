@@ -209,6 +209,16 @@ V0.5.0
         <source>Cancle</source>
         <translation>取消</translation>
     </message>
+    <message>
+        <source>Found a new version.Start downloading now?
+
+Changelog
+</source>
+        <translation>找到一个新版本。是否开始下载？
+
+更新日志
+</translation>
+    </message>
 </context>
 <context>
     <name>main</name>
@@ -231,6 +241,10 @@ V0.5.0
     <message>
         <source>connect erro,code:</source>
         <translation>连接错误，代码：</translation>
+    </message>
+    <message>
+        <source>TencentWeibo </source>
+        <translation>腾讯微博</translation>
     </message>
 </context>
 </TS>

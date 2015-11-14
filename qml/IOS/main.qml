@@ -1,32 +1,25 @@
 import QtQuick 2.4
 import QtQuick.Controls 1.3
-import QtQuick.Layouts 1.1
 
-import QtQuick.Window 2.2
-
-import Material 0.1
+import com.qshen.ios 0.1
 import "BaseComponent"
-import "Dialog"
+
 import "../JavaScript/main.js" as Script
 ApplicationWindow {
     id:app;
     property bool loading;
     visible: true;
-    theme {
-        primaryColor: Palette.colors["blue"]["500"]
-        primaryDarkColor: Palette.colors["blue"]["700"]
-        accentColor: Palette.colors["pink"]["500"]
-        tabHighlightColor: "white"
+    Rectangle{
+        anchors.centerIn: parent;
+        width: 100;
+        height: 100;
+        color: "red";
     }
+
     SignalCenter{
         id:signalcenter;
     }
-    LoadingIndicator{
-        id:loadingind;
-    }
-    Snackbar{
-        id:snackbar;
-    }
+
     Timer{
         id:processingtimer;
         interval: 60000;
@@ -35,7 +28,7 @@ ApplicationWindow {
             app.loading = false;
         }
     }
-    HomePage{
+    /*HomePage{
         id:homepage;
     }
 
@@ -44,6 +37,9 @@ ApplicationWindow {
     }
     NewFeatureDialog{
         id:newfeaturedialog;
+    }*/
+    UIButton{
+
     }
 
     ListModel{
@@ -73,17 +69,17 @@ ApplicationWindow {
         Script.initialize(signalcenter, utility, httprequest, usermodel);
         loadUserData(userdata.getUserData("UserData"));
         Script.checkAccessToken();
-        Script.versionCheckDialog = versionCheckDialog;
+        //Script.versionCheckDialog = versionCheckDialog;
         if(settings.autoCheckNewVersion){
-            Script.checkNewVersion(true);
+            //Script.checkNewVersion(true);
         }
         if(settings.firstStart){
-            newfeaturedialog.open();
+            //newfeaturedialog.open();
             settings.firstStart = false;
         }
-        pageStack.push(homepage);
+        //pageStack.push(homepage);
 
-        //console.log(Units.dp(1))
+        console.log("hereqml")
     }
     function saveUserData() {
         var arry=[];

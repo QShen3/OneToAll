@@ -96,6 +96,11 @@ Utility::PlatformType Utility::platformType() const
     return m_platformType;
 }
 
+QString Utility::getLocale()
+{
+    return QLocale::system().name();
+}
+
 void Utility::selectImage()
 {
 #ifdef Q_OS_ANDROID
