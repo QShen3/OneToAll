@@ -2,8 +2,15 @@
 #include <QNetworkReply>
 #include <QFile>
 #include <QDebug>
+
 #if(QT_VERSION>=0x040800)
 #include <QHttpMultiPart>
+#endif
+
+#if QT_VERSION < 0x050000
+#include <QDesktopServices>
+#else
+
 #endif
 #include "HttpRequest.h"
 HttpRequest::HttpRequest(QObject *parent) : QObject(parent)
@@ -204,4 +211,38 @@ void HttpRequest::setStatus(RequestStatus newStatus)
         m_status = newStatus;
         emit statusChanged();
     }
+}
+
+NetworkAccessManagerFactory::NetworkAccessManagerFactory() : QDeclarativeNetworkAccessManagerFactory()
+{
+}
+
+QNetworkAccessManager* NetworkAccessManagerFactory::create(QObject *parent)
+{
+    QNetworkAccessManager* manager = new NetworkAccessManager(parent);
+
+    QNetworkDiskCache* diskCache = new QNetworkDiskCache(parent);
+    QString dataPath = QDesktopServices::storageLocation(QDesktopServices::CacheLocation);
+    diskCache->setCacheDirectory(dataPath);
+    diskCache->setMaximumCacheSize(3*1024*1024);
+    manager->setCache(diskCache);
+
+    return manager;
+}
+
+NetworkAccessManager::NetworkAccessManager(QObject *parent) : QNetworkAccessManager(parent)
+{
+}
+
+QNetworkReply *NetworkAccessManager::createRequest(Operation op,
+                                                   const QNetworkRequest &request,
+                                                   QIODevice *outgoingData)
+{
+    QNetworkRequest req(request);
+#if QT_VERSION < 0x050000
+    req.setRawHeader("User-Agent","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)");
+#endif
+    req.setAttribute(QNetworkRequest::CacheLoadControlAttribute, QNetworkRequest::PreferCache);
+    QNetworkReply *reply = QNetworkAccessManager::createRequest(op, req, outgoingData);
+    return reply;
 }

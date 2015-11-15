@@ -108,7 +108,7 @@ simulator{
 
 symbian{
     TARGET = OneToAll
-    VERSION = 0.5.1
+    VERSION = 0.7.0
     DEFINES += VER=\"$$VERSION\"
     vendorinfo = "%{\"QShen\"}" ":\"QShen\""
     my_deployment.pkg_prerules += vendorinfo

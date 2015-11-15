@@ -6,7 +6,7 @@ Dialog{
     Label{
         width: parent.width;
         wrapMode: Text.WordWrap;
-        text: qsTr("2015.8.30\nV 0.5.0\n\n1.Add sending picture feature\n2.Now you can press and hold the account to delete it\n3.Fix some bug");
+        text: qsTr("2015.11.14\nV 0.7.1\n\n1.Fix the bug that the new feature dialog displays wrong version message");
     }
 }
 
