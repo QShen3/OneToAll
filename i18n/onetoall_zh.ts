@@ -133,7 +133,7 @@ V 0.5.0
 1.Add sending picture feature
 2.Now you can press and hold the account to delete it
 3.Fix some bug</source>
-        <translation>2015.8.30
+        <translation type="vanished">2015.8.30
 V0.5.0
 
 1.添加发送图片功能
@@ -143,6 +143,28 @@ V0.5.0
     <message>
         <source>OK</source>
         <translation>确定</translation>
+    </message>
+    <message>
+        <source>2015.11.14
+V 0.7.1
+
+1.Fix the bug that the new feature dialog displays wrong version message</source>
+        <translation>2015.11.14
+V 0.7.1
+
+1.修复了新特性窗口显示错误版本信息的BUG</translation>
+    </message>
+    <message>
+        <source>2015.11.15
+V 0.7.0
+
+1.Add support for Tencent Weibo
+2.Some optimization</source>
+        <translation>2015.11.15
+V 0.7.0
+
+1.添加对腾讯微博的支持（因塞班系统的限制，登录可能需要扫码登录，使用账号密码登录可能会提示密码错误）
+2.一些优化</translation>
     </message>
 </context>
 <context>

@@ -38,10 +38,12 @@ int main(int argc, char *argv[])
     Settings settings;
     Utility utility;
     HttpRequest httpRequest;
+    NetworkAccessManagerFactory factory;
 
 #if QT_VERSION < 0x050000
     QmlApplicationViewer viewer;
 
+    viewer.engine()->setNetworkAccessManagerFactory(&factory);
     viewer.rootContext()->setContextProperty("userdata",&userData);
     viewer.rootContext()->setContextProperty("settings", &settings);
     viewer.rootContext()->setContextProperty("utility",&utility);

@@ -5,10 +5,25 @@ CommonDialog{
     titleText: qsTr("New Features");
     platformInverted: true;
     buttonTexts: [qsTr("OK")];
-    content: Label{
-        width: parent.width;
-        wrapMode: Text.WordWrap;
-        text: qsTr("2015.8.30\nV 0.5.0\n\n1.Add sending picture feature\n2.Now you can press and hold the account to delete it\n3.Fix some bug");
+    content: Flickable{
+        anchors{
+            left: parent.left;
+            right: parent.right;
+            top: parent.top;
+            margins: 10;
+        }
+        height: 270;
+        contentHeight: text.height
+        Text{
+            id: text;
+            anchors{
+                left: parent.left;
+                right: parent.right;
+                top: parent.top;
+            }
+            wrapMode: Text.WordWrap;
+            text: qsTr("2015.11.15\nV 0.7.0\n\n1.Add support for Tencent Weibo\n2.Some optimization");
+        }
     }
 }
 
