@@ -4,6 +4,7 @@ var signalcenter;
 var utility;
 var httprequest;
 
+//注册qml和C++类型
 function initialize(sc, ut, hr, um){
     signalcenter = sc;
     utility = ut;
@@ -31,7 +32,7 @@ function sendWebRequest(url, callback, method, postdata) {
                     signalcenter.loadFailed(qsTr("loading erro..."));
                 }
             } else {
-                signalcenter.loadFailed("");
+                signalcenter.loadFailed("...");
             }
             break;
         }
@@ -52,6 +53,7 @@ var usermodel;
 
 //授权相关
 var accessToken;
+var refreshToken;
 var uid;
 var userindex = 0;
 function getAccessToken(from,code){
@@ -64,8 +66,12 @@ function getAccessToken(from,code){
     case "Renren" :
         var url = "https://graph.renren.com/oauth/token";
         var postData = "grant_type=authorization_code&client_id=f80960de14314cd1abd3cb6a7967db92&client_secret=" + renrenSecret() + "&redirect_uri=http://graph.renren.com/oauth/login_success.html&code="+code+"&scope=read_user_photo+photo_upload";
-        //console.log(postData);
         sendWebRequest(url,loadRenrenAccessToken,"POST", postData);
+        break;
+    case "TencentWeibo" :
+        var url = "https://graph.qq.com/oauth2.0/token";
+        url += "?grant_type=authorization_code&client_id=101258308&client_secret=" + tencentWeiboSecret() + "&" + code + "&redirect_uri=http://onetoall.sinaapp.com/successful.php";
+        sendWebRequest(url, loadTencentWeiboAccessToken, "GET", "");
         break;
     }
 }
@@ -81,6 +87,23 @@ function loadRenrenAccessToken(oritxt){
     uid = obj.user.id;
     usermodel.append({"from":"Renren", "uid":uid, "accesstoken":accessToken, "name":obj.user.name, "profileImage":obj.user.avatar[3].url, "authorize": true,"checked":true, "refreshtoken": obj.refresh_token} )
 }
+function loadTencentWeiboAccessToken(oritxt){
+    accessToken = cutStr(oritxt, 13, 45);
+    refreshToken = cutStr(oritxt, 79);
+    getTencentWeiboOpenid(accessToken);
+}
+
+function getTencentWeiboOpenid(aT){
+    var url = "https://graph.qq.com/oauth2.0/me" + "?access_token=" + aT;
+    //console.log(url);
+    sendWebRequest(url, loadTencentWeiboOpenid, "GET", "");
+}
+function loadTencentWeiboOpenid(oritxt){
+    //console.log(cutStr(oritxt, 9, 79));
+    var obj = JSON.parse(cutStr(oritxt, 9, 79));
+    uid = obj.openid;
+    getUserInfo("TencentWeibo", uid, accessToken);
+}
 
 function checkAccessToken(){
     if(usermodel.count > userindex){
@@ -90,6 +113,9 @@ function checkAccessToken(){
             break;
         case "Renren":
             refreshRenrenAccessToken(usermodel.get(userindex).refreshtoken);
+            break;
+        case "TencentWeibo":
+            refreshTencentWeiboAccessToken(usermodel.get(userindex).refreshtoken);
             break;
         }
     }
@@ -121,6 +147,17 @@ function loadRenrenRefreshResult(oritxt){
     checkAccessToken();
 }
 
+function refreshTencentWeiboAccessToken(rT){
+    var url = "https://graph.qq.com/oauth2.0/token?grant_type=refresh_token&client_id=101258308&client_secret=" + tencentWeiboSecret() + "&refresh_token=" +rT;
+    sendWebRequest(url, loadTencentWeiboRefreshResult, "GET", "");
+}
+function loadTencentWeiboRefreshResult(oritxt){
+    usermodel.set(userindex, {"refreshtoken" : cutStr(oritxt, 79), "accesstoken" : cutStr(oritxt, 13, 45)});
+    getTencentWeiboOpenid(cutStr(oritxt, 13, 45));
+    userindex++;
+    checkAccessToken();
+}
+
 //获取用户信息
 function getUserInfo(from, uid, accesstoken){
     switch(from){
@@ -128,19 +165,28 @@ function getUserInfo(from, uid, accesstoken){
         var url = "https://api.weibo.com/2/users/show.json?access_token="+accesstoken+"&uid="+uid;
         sendWebRequest(url, loadWeiboUserInfo, "GET", "");
         break;
+    case "TencentWeibo":
+        var url = "https://graph.qq.com/user/get_info" + "?access_token=" + accesstoken + "&oauth_consumer_key=101258308&openid=" + uid;
+        sendWebRequest(url, loadTencentWeiboUserInfo, "GET", "");
     }
 }
 function loadWeiboUserInfo(oritxt){
     var obj = JSON.parse(oritxt);
-    //console.log(oritxt);
     usermodel.append( {"from":"Weibo", "uid":obj.idstr, "accesstoken":accessToken, "name":obj.name, "profileImage":obj.profile_image_url, "authorize": true,"checked":true} );
-    //console.log(obj.name+"  ok++");
+}
+function loadTencentWeiboUserInfo(oritxt){
+    var obj = JSON.parse(oritxt);
+    if(obj.ret === 0){
+        usermodel.append( {"from": "TencentWeibo", "uid": uid, "accesstoken": accessToken, "name": obj.data.nick, "profileImage": obj.data.head + "/100", "authorize": true, "checked": true, "refreshtoken": refreshToken});
+    }
 }
 
 
 //发送文字信息
+var textData;
 function sendText(text){
     if(usermodel.count > userindex){
+        textData = text;
         if(usermodel.get(userindex).checked){
             switch(usermodel.get(userindex).from){
             case "Weibo":
@@ -148,6 +194,9 @@ function sendText(text){
                 break;
             case "Renren":
                 sendRenrenText(usermodel.get(userindex).accesstoken, text);
+                break;
+            case "TencentWeibo":
+                sendTencentWeiboText(usermodel.get(userindex).accesstoken, usermodel.get(userindex).uid, text);
                 break;
             }
         }
@@ -190,6 +239,24 @@ function loadRenrenSendResult(oritxt){
     userindex++;
     sendText(obj.response.content);
 }
+function sendTencentWeiboText(accesstoken, openid, text){
+    var url = "https://graph.qq.com/t/add_t";
+    var postText = "access_token=" + accesstoken + "&oauth_consumer_key=101258308&openid=" + openid + "&content=" + text;
+    console.log(openid);
+    sendWebRequest(url, loadTencentWeiboSendResult, "POST", postText);
+}
+function loadTencentWeiboSendResult(oritxt) {
+    var obj = JSON.parse(oritxt);
+    if(obj.ret === 0){
+        signalcenter.showMessage(qsTr("TencentWeibo ") + obj.data.id + qsTr(" send successful"));
+    }
+    else {
+        signalcenter.showMessage(qsTr("TencentWeibo ") + obj.msg);
+    }
+    userindex++;
+    sendText(textData);
+}
+
 function textNext(text){
     sendText(text);
 }
@@ -198,6 +265,7 @@ var imageDate;
 function sendImage(text, image) {
     if(usermodel.count > userindex){
         imageDate = image;
+        textData = text;
         if(usermodel.get(userindex).checked){
             switch(usermodel.get(userindex).from){
             case "Weibo":
@@ -205,6 +273,9 @@ function sendImage(text, image) {
                 break;
             case "Renren":
                 httprequest.sendRenrenImage(usermodel.get(userindex).accesstoken, image, text);
+                break;
+            case "TencentWeibo":
+                httprequest.sendTencentWeiboImage(usermodel.get(userindex).accesstoken, usermodel.get(userindex).uid, image, text);
                 break;
             }
         }
@@ -215,7 +286,6 @@ function sendImage(text, image) {
     }
     else {
         userindex = 0;       
-        //imageDate = "";
     }
 }
 function loadWeiboSendImageResult(oritxt){
@@ -232,7 +302,6 @@ function loadWeiboSendImageResult(oritxt){
     sendImage(obj.text, imageDate);
 }
 function loadRenrenSendImageResult(oritxt){
-    console.log(oritxt);
     var obj = JSON.parse(oritxt);
     try{
         signalcenter.showMessage(qsTr("Renren ") + obj.response.ownerId +qsTr(" send successful"));
@@ -242,6 +311,18 @@ function loadRenrenSendImageResult(oritxt){
     }
     userindex++;
     sendImage(obj.response.description, imageDate);
+}
+function loadTencentWeiboSendImageResult(oritxt){
+    console.log(oritxt);
+    var obj = JSON.parse(oritxt);
+    if(obj.ret === 0){
+        signalcenter.showMessage(qsTr("TencentWeibo ") + obj.data.id + qsTr(" send successful"));
+    }
+    else {
+        signalcenter.showMessage(qsTr("TencentWeibo ") + obj.msg);
+    }
+    userindex++;
+    sendImage(textData, imageDate);
 }
 
 function imageNext(text, image){
@@ -257,32 +338,54 @@ function checkNewVersion(isBackground){
     else sendWebRequest(url, loadCheckNewVersionResult, "GET", "");
 }
 function loadCheckNewVersionResult(oritxt){
-    var obj = JSON.parse(oritxt);
-    if(obj.versioncode > 4){   //versioncode 4  0.5.1
-        if(utility.platformType === 0){
-            versionCheckDialog.openDialog(true, obj.x86url);
+    var obj = JSON.parse(oritxt);   
+    if(utility.platformType === 0){
+        if(obj.android.versioncode > 5){
+            if(cutStr(utility.getLocale(),0,2) === "zh"){
+                versionCheckDialog.openDialog(true, obj.android.x86url, obj.android.changelog.zh);
+            }
+            else versionCheckDialog.openDialog(true, obj.android.x86url, obj.android.changelog.en);
         }
-        else if(utility.platformType === 1){
-            versionCheckDialog.openDialog(true, obj.armurl);
-        }
-        else if(utility.platformType === 2){
-            versionCheckDialog.openDialog(true, obj.symbian3);
-        }
+        else versionCheckDialog.openDialog(false, "", "");
     }
-    else versionCheckDialog.openDialog(false, "");
+    else if(utility.platformType === 1){
+        if(obj.android.versioncode > 5){
+            if(cutStr(utility.getLocale(),0,2) === "zh")
+                versionCheckDialog.openDialog(true, obj.android.armurl, obj.android.changelog.zh);
+            else versionCheckDialog.openDialog(true, obj.android.armurl, obj.android.changelog.en);
+        }
+        else versionCheckDialog.openDialog(false, "", "");
+    }
+    else if(utility.platformType === 2){
+        if(obj.symbian.versioncode > 5){
+            if(cutStr(utility.getLocale(),0,2) === "zh")
+                versionCheckDialog.openDialog(true, obj.symbian.url, obj.symbian.changelog.zh);
+            else versionCheckDialog.openDialog(true, obj.symbian.url, obj.symbian.changelog.en);
+        }
+        else versionCheckDialog.openDialog(false, "", "");
+    }
 }
-
 function loadCheckNewVersionResultBackground(oritxt){
     var obj = JSON.parse(oritxt);
-    if(obj.versioncode > 4){   //versioncode 4  0.5.1
-        if(utility.platformType === 0){
-            versionCheckDialog.openDialog(true, obj.x86url)
+    if(utility.platformType === 0){
+        if(obj.android.versioncode > 5){
+            if(cutStr(utility.getLocale(),0,2) === "zh")
+                versionCheckDialog.openDialog(true, obj.android.x86url, obj.android.changelog.zh);
+            else versionCheckDialog.openDialog(true, obj.android.x86url, obj.android.changelog.en);
         }
-        else if(utility.platformType === 1){
-            versionCheckDialog.openDialog(true, obj.armurl)
+    }
+    else if(utility.platformType === 1){
+        if(obj.android.versioncode > 5){
+            if(cutStr(utility.getLocale(),0,2) === "zh")
+                versionCheckDialog.openDialog(true, obj.android.armurl, obj.android.changelog.zh);
+            else versionCheckDialog.openDialog(true, obj.android.armurl, obj.android.changelog.en);
         }
-        else if(utility.platformType === 2){
-            versionCheckDialog.openDialog(true, obj.symbian3);
+    }
+    else if(utility.platformType === 2){
+        if(obj.symbian.versioncode > 5){
+            if(cutStr(utility.getLocale(),0,2) === "zh")
+                versionCheckDialog.openDialog(true, obj.symbian.url, obj.symbian.changelog.zh);
+            else versionCheckDialog.openDialog(true, obj.symbian.url, obj.symbian.changelog.en);
         }
     }
 }

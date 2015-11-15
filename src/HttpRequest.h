@@ -33,16 +33,19 @@ public:
     };
 
     void sendRequest(QUrl url, RequestMethod method, QByteArray text = "", QHttpMultiPart *data = NULL);
+    void sendTencentRequest(QUrl url, QByteArray data);
 
     RequestStatus status();
     void setStatus(RequestStatus newStatus);
 
     Q_INVOKABLE void sendWeiboImage(QString accessToken, QString fileName, QString text);
     Q_INVOKABLE void sendRenrenImage(QString accessToken, QString fileName, QString text);
+    Q_INVOKABLE void sendTencentWeiboImage(QString accessToken, QString openid, QString fileName, QString text);
 
 public slots:
     void loadSendWeiboImageResult(QNetworkReply *reply);
     void loadSendRenrenImageResult(QNetworkReply *reply);
+    void loadSendTencentWeiboImageResult(QNetworkReply *reply);
 
 
 signals:
@@ -50,6 +53,7 @@ signals:
 
     void sendWeiboImageFinished(QByteArray oritxt);
     void sendRenrenImageFinished(QByteArray oritxt);
+    void sendTencentWeiboImageFinished(QByteArray oritxt);
 private:
     QNetworkAccessManager *networkManager;
 

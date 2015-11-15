@@ -22,7 +22,7 @@ CommonDialog{
                     pageStack.push(Qt.resolvedUrl("../LoginPage.qml"),{from:"Weibo"});
                     root.close();
                 }
-                anchors.fill: parent
+                anchors.fill: parent;
             }
         }
         Image{
@@ -35,7 +35,20 @@ CommonDialog{
                     pageStack.push(Qt.resolvedUrl("../LoginPage.qml"),{from:"Renren"});
                     root.close();
                 }
-                anchors.fill: parent
+                anchors.fill: parent;
+            }
+        }
+        Image{
+            height: 60;
+            width: 60;
+            source: Qt.resolvedUrl("../../pic/TencrntWeibo_logo.svg");
+            smooth: true;
+            MouseArea {
+                onClicked: {
+                    pageStack.push(Qt.resolvedUrl("../LoginPage.qml"),{from:"TencentWeibo"});
+                    root.close();
+                }
+                anchors.fill: parent;
             }
         }
     }

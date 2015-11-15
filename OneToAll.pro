@@ -2,6 +2,13 @@ TEMPLATE = app
 
 QT += qml quick widgets svg network
 
+!osx:qtHaveModule(webengine) {
+        QT += webengine
+        DEFINES += QT_WEBVIEW_WEBENGINE_BACKEND
+}
+
+INCLUDEPATH += src
+
 SOURCES += main.cpp \
     src/UserData.cpp \
     src/Utility.cpp \
@@ -14,7 +21,6 @@ HEADERS += \
     src/HttpRequest.h \
     src/Settings.h
 
-INCLUDEPATH += src
 
 RESOURCES += \
     OneToAll.qrc        #js files and pic files
@@ -25,7 +31,6 @@ OTHER_FILES += \
     qml/JavaScript/*.js \
     qml/pic/*.svg \
     qml/pic/*.png
-
 
 folder_Symbian.source = qml/Symbian3
 folder_Symbian.target = qml
@@ -38,6 +43,28 @@ folder_pic.target = qml
 
 folder_JS.source = qml/JavaScript
 folder_JS.target = qml
+
+mac{
+    RESOURCES += Android.qrc
+}
+
+ios{
+    LIBS += -framework Foundation -framework UIKit
+
+    HEADERS += UIButton.h
+
+#    OBJECTIVE_SOURCES += \
+#        src/UIButton.mm
+
+
+    RESOURCES += IOS.qrc
+
+    OTHER_FILES += \
+        qml/IOS/*.qml
+
+    include(deployment.pri)
+
+}
 
 android{
     QT += androidextras
@@ -66,7 +93,7 @@ android{
     include(deployment.pri)
 }
 
-simulator{   
+simulator{
     SOURCES += \
         src/MyImage.cpp
 
@@ -79,7 +106,7 @@ simulator{
     qtcAddDeployment()
 }
 
-symbian{   
+symbian{
     TARGET = OneToAll
     VERSION = 0.5.1
     DEFINES += VER=\"$$VERSION\"
@@ -137,6 +164,11 @@ contains(MEEGO_EDITION,harmattan){
     qtcAddDeployment()
 
 }
+
+
+
+
+
 
 
 
