@@ -6,6 +6,7 @@
 #include "Settings.h"
 #include "Utility.h"
 #include "HttpRequest.h"
+
 #ifdef Q_OS_IOS
 #include "UIButton.h"
 #endif
@@ -51,13 +52,14 @@ int main(int argc, char *argv[])
 
     qmlRegisterType<MyImage>("com.stars.widgets", 1, 0, "MyImage");
 
-    //viewer.setAttribute(Qt::WA_LockPortraitOrientation, true);
-    //viewer.setOrientation(QmlApplicationViewer::ScreenOrientationLockPortrait);
+#ifdef Q_OS_SYMBIAN
     viewer.setSource(QUrl("qml/Symbian3/main.qml"));
+#elif defined(Q_OS_HARMATTAN) | defined(Q_WS_SIMULATOR)
+    viewer.setSource(QUrl("qrc:/qml/Meego/main.qml"));
+#endif
     viewer.showExpanded();
 #else
     QQmlApplicationEngine engine;
-    //QQuickView viewer;
 
     engine.rootContext()->setContextProperty("userdata",&userData);
     engine.rootContext()->setContextProperty("settings", &settings);
@@ -66,13 +68,9 @@ int main(int argc, char *argv[])
 
 #ifdef Q_OS_ANDROID
     engine.load(QUrl(QStringLiteral("qrc:/qml/Android/main.qml")));
-    //viewer.show();
 #elif defined(Q_OS_IOS)
     qmlRegisterType<QUIButton>("com.qshen.ios", 0, 1, "UIButton");
     engine.load(QUrl(QStringLiteral("qrc:/qml/IOS/main.qml")));
-
-
-    //viewer.show();
 #endif
 
 #endif

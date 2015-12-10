@@ -239,7 +239,7 @@ QNetworkReply *NetworkAccessManager::createRequest(Operation op,
                                                    QIODevice *outgoingData)
 {
     QNetworkRequest req(request);
-#if QT_VERSION < 0x050000
+#if defined(Q_OS_SYMBIAN)
     req.setRawHeader("User-Agent","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)");
 #endif
     req.setAttribute(QNetworkRequest::CacheLoadControlAttribute, QNetworkRequest::PreferCache);

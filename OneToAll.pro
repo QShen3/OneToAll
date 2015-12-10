@@ -100,7 +100,7 @@ simulator{
     HEADERS += \
         src/MyImage.h
 
-    DEPLOYMENTFOLDERS += folder_Symbian folder_pic folder_JS
+    DEPLOYMENTFOLDERS += folder_Meego folder_pic folder_JS
 
     include(qmlapplicationviewer/qmlapplicationviewer.pri)
     qtcAddDeployment()
@@ -148,8 +148,16 @@ contains(MEEGO_EDITION,harmattan){
 
     DEFINES += Q_OS_HARMATTAN
     CONFIG += qdeclarative-boostable meegotouch
+
+    SOURCES += \
+        src/MyImage.cpp
+
+    HEADERS += \
+        src/MyImage.h
+
     DEPLOYMENTFOLDERS +=  folder_JS folder_Meego folder_pic
-    #RESOURCES += Meego.qrc
+    RESOURCES += Meego.qrc \
+        OneToAll.qrc
 
     OTHER_FILES += \
         qtc_packaging/debian_harmattan/rules \

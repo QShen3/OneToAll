@@ -73,13 +73,15 @@ Utility::Utility(QObject *parent) : QObject(parent)
 {
 #ifdef Q_OS_ANDROID
     #ifdef Q_PROCESSOR_X86
-    m_platformType = Andriod_x86;
+    m_platformType = Andriod_x86;       // 0
     #else
-    m_platformType = Andriod_armv7;
+    m_platformType = Andriod_armv7;     //1
     #endif
     resultReceiver = new ResultReceiver(this);
-#elif defined(Q_OS_SYMBIAN) | defined(Q_WS_SIMULATOR)
-    m_platformType = Symbian3;
+#elif defined(Q_OS_SYMBIAN)
+    m_platformType = Symbian3;          //2
+#elif defined(Q_OS_HARMATTAN) | defined(Q_WS_SIMULATOR)
+    m_platformType = Meego;             //3
 #endif
 }
 Utility::~Utility()
@@ -126,6 +128,7 @@ void Utility::selectImage()
         result = QString((QChar*) fileName.Ptr(), fileName.Length());
     }
     CleanupStack::PopAndDestroy(fileNames);
+    qDebug() << result;
     emit selectImageFinished(QDir::fromNativeSeparators(result));
 #elif defined(Q_WS_SIMULATOR)
     emit selectImageFinished("E:/Image/83419e2f070828384964f455bb99a9014d08f1c0.jpg");

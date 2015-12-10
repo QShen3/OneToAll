@@ -7,5 +7,12 @@
         <file>qml/pic/Renren_logo.svg</file>
         <file>qml/pic/Weibo_logo.svg</file>
         <file>qml/pic/TencrntWeibo_logo.svg</file>
+        <file>qml/pic/HeadShadow.png</file>
+        <file>qml/pic/btn_icon_edit_inverted.png</file>
+        <file>qml/pic/btn_insert_face_inverted.png</file>
+        <file>qml/pic/btn_insert_pics_inverted.png</file>
+        <file>qml/pic/Headerbar.svg</file>
+        <file>qml/pic/icon-m-toolbar-add.png</file>
+        <file>qml/pic/mask.bmp</file>
     </qresource>
 </RCC>

@@ -18,7 +18,8 @@ public:
     enum PlatformType{
         Andriod_x86,
         Andriod_armv7,
-        Symbian3
+        Symbian3,
+        Meego
     };
 
     explicit Utility(QObject *parent = 0);
