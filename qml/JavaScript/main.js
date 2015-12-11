@@ -290,13 +290,11 @@ function sendImage(text, image) {
 }
 function loadWeiboSendImageResult(oritxt){
     var obj=JSON.parse(oritxt);
-    //console.log(qstr("Weibo ") +obj.user.name+ qsTr(" send successful"));
     try{
         signalcenter.showMessage(qsTr("Weibo ") + obj.user.name+ qsTr(" send successful"));
     }
     catch(e){
         signalcenter.showMessage(qsTr("Weibo ") + obj.error);
-        console.log("erro" + obj.error);
     }
     userindex++;
     sendImage(obj.text, imageDate);
@@ -313,7 +311,6 @@ function loadRenrenSendImageResult(oritxt){
     sendImage(obj.response.description, imageDate);
 }
 function loadTencentWeiboSendImageResult(oritxt){
-    console.log(oritxt);
     var obj = JSON.parse(oritxt);
     if(obj.ret === 0){
         signalcenter.showMessage(qsTr("TencentWeibo ") + obj.data.id + qsTr(" send successful"));

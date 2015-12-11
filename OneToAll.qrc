@@ -14,5 +14,9 @@
         <file>qml/pic/Headerbar.svg</file>
         <file>qml/pic/icon-m-toolbar-add.png</file>
         <file>qml/pic/mask.bmp</file>
+        <file>qml/pic/RoundScreencorners01.png</file>
+        <file>qml/pic/RoundScreencorners02.png</file>
+        <file>qml/pic/RoundScreencorners03.png</file>
+        <file>qml/pic/RoundScreencorners04.png</file>
     </qresource>
 </RCC>

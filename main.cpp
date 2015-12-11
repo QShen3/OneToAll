@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<MyImage>("com.stars.widgets", 1, 0, "MyImage");
 
 #ifdef Q_OS_SYMBIAN
-    viewer.setSource(QUrl("qml/Symbian3/main.qml"));
+    viewer.setSource(QUrl("qrc:/qml/Symbian3/main.qml"));
 #elif defined(Q_OS_HARMATTAN) | defined(Q_WS_SIMULATOR)
     viewer.setSource(QUrl("qrc:/qml/Meego/main.qml"));
 #endif

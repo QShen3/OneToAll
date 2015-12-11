@@ -101,47 +101,6 @@ simulator{
         src/MyImage.h
 
     DEPLOYMENTFOLDERS += folder_Meego folder_pic folder_JS
-
-    include(qmlapplicationviewer/qmlapplicationviewer.pri)
-    qtcAddDeployment()
-}
-
-symbian{
-    TARGET = OneToAll
-    VERSION = 0.7.0
-    DEFINES += VER=\"$$VERSION\"
-    vendorinfo = "%{\"QShen\"}" ":\"QShen\""
-    my_deployment.pkg_prerules += vendorinfo
-    DEPLOYMENT.display_name = OneToAll
-    DEPLOYMENT += my_deployment
-
-    TARGET.UID3 = 0xE3C7B1EC
-    TARGET.CAPABILITY += NetworkServices \
-        ReadUserData \
-        ReadDeviceData \
-        LocalServices \
-        Location \
-        UserEnvironment \
-        WriteUserData \
-        WriteDeviceData
-
-    CONFIG += localize_deployment
-
-    LIBS *= \
-        -lMgFetch -lbafl \                   #select iamge
-        -lServiceHandler -lnewservice -lbafl        #capture
-    #INCLUDEPATH += $$[QT_INSTALL_PREFIX]/epoc32/include/middleware
-    SOURCES += \
-        src/MyImage.cpp
-
-    HEADERS += \
-        src/MyImage.h
-
-    DEPLOYMENTFOLDERS += folder_Symbian folder_pic folder_JS
-    #RESOURCES += Symbian3.qrc
-
-    include(qmlapplicationviewer/qmlapplicationviewer.pri)
-    qtcAddDeployment()
 }
 
 contains(MEEGO_EDITION,harmattan){
@@ -172,6 +131,46 @@ contains(MEEGO_EDITION,harmattan){
     qtcAddDeployment()
 
 }
+
+symbian{
+    TARGET = OneToAll
+    VERSION = 0.7.4
+    DEFINES += VER=\"$$VERSION\"
+    vendorinfo = "%{\"QShen\"}" ":\"QShen\""
+    my_deployment.pkg_prerules += vendorinfo
+    DEPLOYMENT.display_name = OneToAll
+    DEPLOYMENT += my_deployment
+
+    TARGET.UID3 = 0xE3C7B1EC
+    TARGET.CAPABILITY += NetworkServices \
+        ReadUserData \
+        ReadDeviceData \
+        LocalServices \
+        Location \
+        UserEnvironment \
+        WriteUserData \
+        WriteDeviceData
+
+    CONFIG += localize_deployment
+
+    LIBS *= \
+        -lMgFetch -lbafl \                   #select iamge
+        -lServiceHandler -lnewservice -lbafl        #capture
+    #INCLUDEPATH += $$[QT_INSTALL_PREFIX]/epoc32/include/middleware
+    SOURCES += \
+        src/MyImage.cpp
+
+    HEADERS += \
+        src/MyImage.h
+
+    DEPLOYMENTFOLDERS += folder_Symbian folder_pic folder_JS
+    RESOURCES += Symbian3.qrc
+
+    include(qmlapplicationviewer/qmlapplicationviewer.pri)
+    qtcAddDeployment()
+}
+
+
 
 
 

@@ -6,8 +6,8 @@ import "BaseComponent"
 MyPage{
     id:loginpage;
     property string from;
-    //title: qsTr("Add account");
-    title: webview.progress;
+    title: qsTr("Add account");
+    //title: webview.progress;
     Head{
         id:head;
         titleText: title;
