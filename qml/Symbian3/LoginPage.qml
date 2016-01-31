@@ -7,6 +7,7 @@ MyPage{
     id:loginpage;
     property string from;
     title: qsTr("Add account");
+    //title: webview.progress;
     Head{
         id:head;
         titleText: title;
@@ -18,7 +19,7 @@ MyPage{
             platformInverted: true;
             onClicked: pageStack.pop();
         }
-    }
+    }    
     WebView{
         id:webview;
         anchors.fill: parent;
@@ -32,7 +33,7 @@ MyPage{
             case "Renren":
                 return "https://graph.renren.com/oauth/authorize?client_id=f80960de14314cd1abd3cb6a7967db92&response_type=code&redirect_uri=http://graph.renren.com/oauth/login_success.html&display=touth&scope=publish_feed status_update"
             case "TencentWeibo":
-                return "https://graph.qq.com/oauth2.0/authorize?client_id=101258308&response_type=code&redirect_uri=http://onetoall.sinaapp.com/successful.php&scope=get_info,add_t,add_pic_t&display=mobile";
+                return "https://graph.qq.com/oauth2.0/authorize?client_id=101258308&response_type=code&redirect_uri=http://onetoall.sinaapp.com/successful.php&scope=get_info,add_t,add_pic_t";
             }
         }
         onUrlChanged: {
@@ -49,6 +50,6 @@ MyPage{
                 pageStack.pop();
             }
         }
-    }
+    }    
 }
 

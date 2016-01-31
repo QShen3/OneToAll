@@ -104,7 +104,7 @@ MyPage {
                     Script.sendImage(inputtext.text , Script.cutStr(picture.source, 8) );
                 }
             }
-        }       
+        }
     }
     Image{
         id:picture;
@@ -198,9 +198,10 @@ MyPage {
     Connections{
         target: utility;
         onSelectImageFinished:{
-            picture.source = "file:///" + imageUrl;
-            hasPic = true;
-
+            if(imageUrl){
+                picture.source = "file:///" + imageUrl;
+                hasPic = true;
+            }
         }
     }
     Connections{

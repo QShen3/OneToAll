@@ -290,13 +290,11 @@ function sendImage(text, image) {
 }
 function loadWeiboSendImageResult(oritxt){
     var obj=JSON.parse(oritxt);
-    //console.log(qstr("Weibo ") +obj.user.name+ qsTr(" send successful"));
     try{
         signalcenter.showMessage(qsTr("Weibo ") + obj.user.name+ qsTr(" send successful"));
     }
     catch(e){
         signalcenter.showMessage(qsTr("Weibo ") + obj.error);
-        console.log("erro" + obj.error);
     }
     userindex++;
     sendImage(obj.text, imageDate);
@@ -313,7 +311,6 @@ function loadRenrenSendImageResult(oritxt){
     sendImage(obj.response.description, imageDate);
 }
 function loadTencentWeiboSendImageResult(oritxt){
-    console.log(oritxt);
     var obj = JSON.parse(oritxt);
     if(obj.ret === 0){
         signalcenter.showMessage(qsTr("TencentWeibo ") + obj.data.id + qsTr(" send successful"));
@@ -339,8 +336,8 @@ function checkNewVersion(isBackground){
 }
 function loadCheckNewVersionResult(oritxt){
     var obj = JSON.parse(oritxt);   
-    if(utility.platformType === 0){
-        if(obj.android.versioncode > 5){
+    if(utility.platformType === 0){          //Android x86
+        if(obj.android.versioncode > 6){
             if(cutStr(utility.getLocale(),0,2) === "zh"){
                 versionCheckDialog.openDialog(true, obj.android.x86url, obj.android.changelog.zh);
             }
@@ -348,44 +345,65 @@ function loadCheckNewVersionResult(oritxt){
         }
         else versionCheckDialog.openDialog(false, "", "");
     }
-    else if(utility.platformType === 1){
-        if(obj.android.versioncode > 5){
+    else if(utility.platformType === 1){     //Android armv7
+        if(obj.android.versioncode > 6){
             if(cutStr(utility.getLocale(),0,2) === "zh")
                 versionCheckDialog.openDialog(true, obj.android.armurl, obj.android.changelog.zh);
             else versionCheckDialog.openDialog(true, obj.android.armurl, obj.android.changelog.en);
         }
         else versionCheckDialog.openDialog(false, "", "");
     }
-    else if(utility.platformType === 2){
-        if(obj.symbian.versioncode > 5){
+    else if(utility.platformType === 2){      //Symbian^3  0.7.4
+        if(obj.symbian.versioncode > 6){
             if(cutStr(utility.getLocale(),0,2) === "zh")
                 versionCheckDialog.openDialog(true, obj.symbian.url, obj.symbian.changelog.zh);
             else versionCheckDialog.openDialog(true, obj.symbian.url, obj.symbian.changelog.en);
         }
         else versionCheckDialog.openDialog(false, "", "");
     }
+    else if(utility.platformType === 3){        //Meego 0.7.0
+        if(obj.meego.versioncode > 1){
+            if(cutStr(utility.getLocale(),0,2) === "zh")
+                versionCheckDialog.openDialog(true, obj.meego.url, obj.meego.changelog.zh);
+            else versionCheckDialog.openDialog(true, obj.meego.url, obj.meego.changelog.en);
+        }
+        else versionCheckDialog.openDialog(false, "", "");
+    }
+    else if(utility.platformType === 4){        //Win32 0.7.0
+
+    }
 }
 function loadCheckNewVersionResultBackground(oritxt){
     var obj = JSON.parse(oritxt);
-    if(utility.platformType === 0){
-        if(obj.android.versioncode > 5){
+    if(utility.platformType === 0){         //Android x86
+        if(obj.android.versioncode > 6){
             if(cutStr(utility.getLocale(),0,2) === "zh")
                 versionCheckDialog.openDialog(true, obj.android.x86url, obj.android.changelog.zh);
             else versionCheckDialog.openDialog(true, obj.android.x86url, obj.android.changelog.en);
         }
     }
-    else if(utility.platformType === 1){
-        if(obj.android.versioncode > 5){
+    else if(utility.platformType === 1){        //Android armv7
+        if(obj.android.versioncode > 6){
             if(cutStr(utility.getLocale(),0,2) === "zh")
                 versionCheckDialog.openDialog(true, obj.android.armurl, obj.android.changelog.zh);
             else versionCheckDialog.openDialog(true, obj.android.armurl, obj.android.changelog.en);
         }
     }
-    else if(utility.platformType === 2){
-        if(obj.symbian.versioncode > 5){
+    else if(utility.platformType === 2){        //Symbian^3  0.7.4
+        if(obj.symbian.versioncode > 6){
             if(cutStr(utility.getLocale(),0,2) === "zh")
                 versionCheckDialog.openDialog(true, obj.symbian.url, obj.symbian.changelog.zh);
             else versionCheckDialog.openDialog(true, obj.symbian.url, obj.symbian.changelog.en);
         }
+    }
+    else if(utility.platformType === 3){        //Meego 0.7.0
+        if(obj.meego.versioncode > 1){
+            if(cutStr(utility.getLocale(),0,2) === "zh")
+                versionCheckDialog.openDialog(true, obj.meego.url, obj.meego.changelog.zh);
+            else versionCheckDialog.openDialog(true, obj.meego.url, obj.meego.changelog.en);
+        }
+    }
+    else if(utility.platformType === 4){        //Win32 0.7.0
+
     }
 }

@@ -8,19 +8,19 @@ class Settings : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(bool autoCheckNewVersion READ isAutoCheckNewVersion WRITE setAutoCheckNewVersion NOTIFY autoCheckNewVersionChanged)
-    Q_PROPERTY(bool firstStart READ isFirstStart WRITE setFirstStart NOTIFY firstStartChanged)
+    Q_PROPERTY(int versionCode READ versionCode WRITE setVersionCode NOTIFY versionCodeChanged)
 public:
     explicit Settings(QObject *parent = 0);
     ~Settings();
     bool isAutoCheckNewVersion();
-    bool isFirstStart();
+    int versionCode();
 
     void setAutoCheckNewVersion(bool);
-    void setFirstStart(bool);
+    void setVersionCode(int);
 
 signals:
     void autoCheckNewVersionChanged();
-    void firstStartChanged();
+    void versionCodeChanged();
 
 public slots:
     void loadSettings();
@@ -29,7 +29,7 @@ public slots:
 private:
     QSettings *settings;
     bool m_autoCheckNewVersion;
-    bool m_firstStart;
+    int m_versionCode;
 };
 #endif // SETTINGS
 

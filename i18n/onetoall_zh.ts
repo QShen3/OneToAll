@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="zh_CN">
+<TS version="2.0" language="zh_CN">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -27,6 +27,22 @@ My e-mail: qazxdrcssc2006@163.com</source>
     <message>
         <source>OK</source>
         <translation>确定</translation>
+    </message>
+    <message>
+        <source>This software is used to send status. It supports multiple social networking sites.
+
+Currently in the testing phase,supporting Weibo, Tecent Weibo and Renren.
+
+It will support more social networking sites and function in future.
+
+My e-mail: qazxdrcssc2006@163.com</source>
+        <translation>这款软件可以用来群发状态。它支持多个社交网络。
+
+现在正在测试阶段，仅支持新浪微博、腾讯微博和人人网。
+
+将来会支持更多的社交网络和拥有更多的功能
+
+我的邮箱：qazxdrcssc2006@163.com</translation>
     </message>
 </context>
 <context>
@@ -60,10 +76,21 @@ My e-mail: qazxdrcssc2006@163.com</source>
     </message>
 </context>
 <context>
+    <name>GallerySheet</name>
+    <message>
+        <source>Cancle</source>
+        <translation>取消</translation>
+    </message>
+    <message>
+        <source>Select image</source>
+        <translation>选择图片</translation>
+    </message>
+</context>
+<context>
     <name>HomePage</name>
     <message>
         <source>Home</source>
-        <translation type="vanished">主页</translation>
+        <translation type="obsolete">主页</translation>
     </message>
     <message>
         <source>Please click again to quit</source>
@@ -133,7 +160,7 @@ V 0.5.0
 1.Add sending picture feature
 2.Now you can press and hold the account to delete it
 3.Fix some bug</source>
-        <translation>2015.8.30
+        <translation type="obsolete">2015.8.30
 V0.5.0
 
 1.添加发送图片功能
@@ -143,6 +170,28 @@ V0.5.0
     <message>
         <source>OK</source>
         <translation>确定</translation>
+    </message>
+    <message>
+        <source>2015.11.14
+V 0.7.1
+
+1.Fix the bug that the new feature dialog displays wrong version message</source>
+        <translation>2015.11.14
+V 0.7.1
+
+1.修复了新特性窗口显示错误版本信息的BUG</translation>
+    </message>
+    <message>
+        <source>2015.11.15
+V 0.7.0
+
+1.Add support for Tencent Weibo
+2.Some optimization</source>
+        <translation>2015.11.15
+V 0.7.0
+
+1.添加对腾讯微博的支持（因塞班系统的限制，登录可能需要扫码登录，使用账号密码登录可能会提示密码错误）
+2.一些优化</translation>
     </message>
 </context>
 <context>
@@ -224,27 +273,27 @@ Changelog
     <name>main</name>
     <message>
         <source>loading erro...</source>
-        <translation>加载错误……</translation>
+        <translation type="obsolete">加载错误……</translation>
     </message>
     <message>
         <source>Weibo </source>
-        <translation>新浪微博</translation>
+        <translation type="obsolete">新浪微博</translation>
     </message>
     <message>
         <source> send successful</source>
-        <translation>发送成功</translation>
+        <translation type="obsolete">发送成功</translation>
     </message>
     <message>
         <source>Renren </source>
-        <translation>人人网</translation>
+        <translation type="obsolete">人人网</translation>
     </message>
     <message>
         <source>connect erro,code:</source>
-        <translation>连接错误，代码：</translation>
+        <translation type="obsolete">连接错误，代码：</translation>
     </message>
     <message>
         <source>TencentWeibo </source>
-        <translation>腾讯微博</translation>
+        <translation type="obsolete">腾讯微博</translation>
     </message>
 </context>
 </TS>

@@ -18,13 +18,14 @@ Page {
             onTriggered: pageStack.push(Qt.resolvedUrl("SettingPage.qml"));
         }
     ]
-
     Card{
         id: inputcard;
         anchors{
             left: parent.left;
-            right: parent.right;
+            //right: parent.right;
+            right: isWideScreen ? undefined : parent.right;
             top: parent.top;
+            bottom: isWideScreen ? parent.bottom : undefined;
             margins: Units.dp(8);
         }
         height: width*0.75;
@@ -132,11 +133,15 @@ Page {
     Card{
         id:accountcard
         anchors{
-            left: parent.left;
+            //left: parent.left;
+            left: isWideScreen ? inputcard.right : parent.left;
             right: parent.right;
             bottom: parent.bottom;
-            top: inputcard.bottom;
-            topMargin: Units.dp(64);
+            //top: inputcard.bottom;
+            top: isWideScreen ? parent.top : inputcard.bottom;
+            //topMargin: Units.dp(64);
+            topMargin: isWideScreen ? 0 : Units.dp(64);
+            leftMargin: isWideScreen ? Units.dp(64) : 0;
         }
         ListView{
             id:accountview;
@@ -157,9 +162,15 @@ Page {
     ActionButton{
         id:addbuttom;
         anchors{
-            verticalCenter: accountcard.top;
-            right: accountcard.right;
-            rightMargin: Units.dp(32);
+            //verticalCenter: accountcard.top;
+            verticalCenter: isWideScreen ? undefined : accountcard.top;
+            horizontalCenter: isWideScreen ? accountcard.left : undefined;
+            //right: accountcard.right;
+            right: isWideScreen ? undefined : accountcard.right;
+            //rightMargin: Units.dp(32);
+            rightMargin: isWideScreen ? undefined : Units.dp(32);
+            top: isWideScreen ? accountcard.top : undefined;
+            topMargin: isWideScreen ? Units.dp(32) : undefined;
         }
         iconName: "content/add";
         onClicked: choosedialog.open();

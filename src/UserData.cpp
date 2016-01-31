@@ -8,9 +8,9 @@
 #include <QTextStream>
 void UserData::setUserData(const QString &key, const QString &data){
 #if QT_VERSION < 0x050000
-    QString path = QDesktopServices::storageLocation(QDesktopServices::DataLocation) + QDir::separator() + ".userdata";
+    QString path = QDesktopServices::storageLocation(QDesktopServices::DataLocation) + QDir::separator() + ".userdata" + QDir::separator() + "OneToAll";
 #else
-    QString path = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + ".userdata";
+    QString path = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + ".userdata" + QDir::separator() + "OneToAll";
 #endif
     QDir dir(path);
     if (!dir.exists()) dir.mkpath(path);
@@ -26,9 +26,9 @@ void UserData::setUserData(const QString &key, const QString &data){
 
 QString UserData::getUserData(const QString &key){
 #if QT_VERSION < 0x050000
-    QString path = QDesktopServices::storageLocation(QDesktopServices::DataLocation) + QDir::separator() + ".userdata";
+    QString path = QDesktopServices::storageLocation(QDesktopServices::DataLocation) + QDir::separator() + ".userdata" + QDir::separator() + "OneToAll";
 #else
-    QString path = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + ".userdata";
+    QString path = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + ".userdata" + QDir::separator() + "OneToAll";
 #endif
     QString filename = path + QDir::separator() + key + ".dat";
     QString res;
@@ -43,9 +43,9 @@ QString UserData::getUserData(const QString &key){
 
 bool UserData::clearUserData(const QString &key){
 #if QT_VERSION < 0x050000
-    QString path = QDesktopServices::storageLocation(QDesktopServices::DataLocation) + QDir::separator() + ".userdata";
+    QString path = QDesktopServices::storageLocation(QDesktopServices::DataLocation) + QDir::separator() + ".userdata" + QDir::separator() + "OneToAll";
 #else
-    QString path = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + ".userdata";
+    QString path = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + ".userdata" + QDir::separator() + "OneToAll";
 #endif
     QString filename = path + QDir::separator() + key + ".dat";
     QFile file(filename);

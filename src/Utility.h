@@ -18,7 +18,9 @@ public:
     enum PlatformType{
         Andriod_x86,
         Andriod_armv7,
-        Symbian3
+        Symbian3,
+        Meego,
+        Win32
     };
 
     explicit Utility(QObject *parent = 0);
@@ -34,6 +36,12 @@ public:
 
 signals:
     void selectImageFinished(QString imageUrl);
+
+private slots:
+#ifdef Q_OS_HARMATTAN
+    void captureCanceled(const QString &mode);
+    void captureCompleted(const QString &mode, const QString &fileName);
+#endif
 
 private:
     PlatformType m_platformType;

@@ -134,6 +134,7 @@ void MyImage::setImage(QImage &image)
         if( str.mid (0, 3) == "qrc")
             str = str.mid (3, str.count ()-3);
         QBitmap bitmap(str);
+        //qDebug() << bitmap.isNull();
         if(!bitmap.isNull()){
             int max_width = bitmap.width();
             int max_height = bitmap.height();

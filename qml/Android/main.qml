@@ -10,8 +10,10 @@ import "Dialog"
 import "../JavaScript/main.js" as Script
 ApplicationWindow {
     id:app;
+    property bool isWideScreen: width > height;
     property bool loading;
     visible: true;
+
     theme {
         primaryColor: Palette.colors["blue"]["500"]
         primaryDarkColor: Palette.colors["blue"]["700"]

@@ -1,0 +1,20 @@
+<RCC>
+    <qresource prefix="/" lang="qml">
+        <file>qml/Symbian3/HomePage.qml</file>
+        <file>qml/Symbian3/LoginPage.qml</file>
+        <file>qml/Symbian3/main.qml</file>
+        <file>qml/Symbian3/SettingPage.qml</file>
+        <file>qml/Symbian3/BaseComponent/Corners.qml</file>
+        <file>qml/Symbian3/BaseComponent/Head.qml</file>
+        <file>qml/Symbian3/BaseComponent/LoadingIndicator.qml</file>
+        <file>qml/Symbian3/BaseComponent/MyPage.qml</file>
+        <file>qml/Symbian3/BaseComponent/SignalCenter.qml</file>
+        <file>qml/Symbian3/BaseComponent/StatusPaneText.qml</file>
+        <file>qml/Symbian3/Delegate/UserComponent.qml</file>
+        <file>qml/Symbian3/Dialog/AboutDialog.qml</file>
+        <file>qml/Symbian3/Dialog/ChooseDialog.qml</file>
+        <file>qml/Symbian3/Dialog/ConfirmDialog.qml</file>
+        <file>qml/Symbian3/Dialog/NewFeatureDialog.qml</file>
+        <file>qml/Symbian3/Dialog/VersionCheckDialog.qml</file>
+    </qresource>
+</RCC>

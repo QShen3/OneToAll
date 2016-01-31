@@ -1,0 +1,19 @@
+<RCC>
+    <qresource prefix="/" lang="qml">
+        <file>qml/Meego/HomePage.qml</file>
+        <file>qml/Meego/LoginPage.qml</file>
+        <file>qml/Meego/main.qml</file>
+        <file>qml/Meego/SettingPage.qml</file>
+        <file>qml/Meego/BaseComponent/Head.qml</file>
+        <file>qml/Meego/BaseComponent/LoadingIndicator.qml</file>
+        <file>qml/Meego/BaseComponent/MyPage.qml</file>
+        <file>qml/Meego/BaseComponent/SignalCenter.qml</file>
+        <file>qml/Meego/Delegate/UserComponent.qml</file>
+        <file>qml/Meego/Dialog/AboutDialog.qml</file>
+        <file>qml/Meego/Dialog/ChooseDialog.qml</file>
+        <file>qml/Meego/Dialog/ConfirmDialog.qml</file>
+        <file>qml/Meego/Dialog/NewFeatureDialog.qml</file>
+        <file>qml/Meego/Dialog/VersionCheckDialog.qml</file>
+        <file>qml/Meego/BaseComponent/GallerySheet.qml</file>
+    </qresource>
+</RCC>
