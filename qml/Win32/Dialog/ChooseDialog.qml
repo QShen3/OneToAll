@@ -1,50 +1,51 @@
-import QtQuick 1.1
-import com.nokia.meego 1.1
+import QtQuick 2.4
+import Material 0.2
 Dialog{
     id:root;
-    content:Grid{
-        anchors{
-            //verticalCenter: parent.verticalCenter;
-            horizontalCenter: parent.horizontalCenter;
-        }
-        spacing: 20;
+    title: qsTr("Add an account");
+    hasActions: false;
+    Grid{
+        spacing: Units.dp(16);
         Image{
-            height: 80;
-            width: 80;
+            height: Units.dp(48);
+            width: Units.dp(48);
             source: Qt.resolvedUrl("../../pic/Weibo_logo.svg");
             smooth: true;
-            MouseArea {
+            Ink {
                 onClicked: {
                     pageStack.push(Qt.resolvedUrl("../LoginPage.qml"),{from:"Weibo"});
                     root.close();
                 }
-                anchors.fill: parent;
+                anchors.fill: parent
+                z: -1
             }
         }
         Image{
-            height: 80;
-            width: 80;
+            height: Units.dp(48);
+            width: Units.dp(48);
             source: Qt.resolvedUrl("../../pic/Renren_logo.svg");
             smooth: true;
-            MouseArea {
+            Ink {
                 onClicked: {
                     pageStack.push(Qt.resolvedUrl("../LoginPage.qml"),{from:"Renren"});
                     root.close();
                 }
-                anchors.fill: parent;
+                anchors.fill: parent
+                z: -1
             }
         }
         Image{
-            height: 80;
-            width: 80;
+            height: Units.dp(48);
+            width: Units.dp(48);
             source: Qt.resolvedUrl("../../pic/TencrntWeibo_logo.svg");
             smooth: true;
-            MouseArea {
+            Ink {
                 onClicked: {
                     pageStack.push(Qt.resolvedUrl("../LoginPage.qml"),{from:"TencentWeibo"});
                     root.close();
                 }
-                anchors.fill: parent;
+                anchors.fill: parent
+                z: -1
             }
         }
     }

@@ -137,10 +137,10 @@ MyPage {
         anchors{
             left: parent.left;
             top: inputitem.bottom;
-            leftMargin: 15;
+            leftMargin: 20;
             topMargin: 10;
         }
-        sourceSize.height: 80;
+        sourceSize.height: 107;
         height: hasPic ? sourceSize.height : 0;
         //width: sourceSize.width / sourceSize.height * height;
         MouseArea{
@@ -153,14 +153,15 @@ MyPage {
     ListView{
         id:accountview;
         anchors{
-            bottom: parent.bottom;
+            bottom: mainPage.bottom;
             left: parent.left;
             right: parent.right;
             top: picture.bottom;
-            topMargin: 15;
+            topMargin: 20;
         }
         clip: true;
-        interactive: contentHeight > height;
+        //contentHeight: 80 + 88 * usermodel.count;
+        //interactive: contentHeight > height;
         model: usermodel;
         delegate: UserComponent{}
         header: Item{
@@ -184,8 +185,8 @@ MyPage {
             }
             source: "../pic/HeadShadow.png";
         }
-        Component.onCompleted: {
-            console.log(contentHeight + " h " + height);
+        onContentHeightChanged: {
+            console.log(contentHeight + " " + usermodel.count);
         }
     }
     ScrollDecorator{
@@ -222,7 +223,8 @@ MyPage {
             }
             MenuItem{
                 text: qsTr("Photo library");
-                onClicked: utility.selectImage();
+                //onClicked: utility.selectImage();
+                onClicked: gallerysheet.open();
             }
             MenuItem{
                 text: qsTr("Delete");
@@ -231,6 +233,10 @@ MyPage {
             }
         }
     }
+    GallerySheet{
+        id: gallerysheet;
+    }
+
     ConfirmDialog{
         id: confirmdialog;
     }
@@ -245,7 +251,6 @@ MyPage {
         onSelectImageFinished:{
             picture.source = "file:///" + imageUrl;
             hasPic = true;
-
         }
     }
     Connections{

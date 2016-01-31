@@ -1,6 +1,6 @@
 import QtQuick 2.4
 import QtQuick.Dialogs 1.2
-import Material 0.1
+import Material 0.2
 import "Delegate"
 import "Dialog"
 import "../JavaScript/main.js" as Script
@@ -18,6 +18,7 @@ Page {
             onTriggered: pageStack.push(Qt.resolvedUrl("SettingPage.qml"));
         }
     ]
+
     Card{
         id: inputcard;
         anchors{
@@ -28,7 +29,10 @@ Page {
             bottom: isWideScreen ? parent.bottom : undefined;
             margins: Units.dp(8);
         }
-        height: width*0.75;
+
+        //height: isWideScreen ? 100 : width*0.75;
+        //width: isWideScreen ? height * 0.75 : 100;
+
         Flickable{
             id:textflickable;
             anchors{
@@ -128,6 +132,14 @@ Page {
                 }
             }
         }
+        /*Component.onCompleted: {
+            if(isWideScreen){
+                width = height * 0.75;
+            }
+            else{
+                height = width * 0.75;
+            }
+        }*/
     }
 
     Card{
@@ -174,6 +186,9 @@ Page {
         }
         iconName: "content/add";
         onClicked: choosedialog.open();
+        onXChanged: {
+            //console.log()
+        }
     }
     Timer{
         id: quitTimer;
@@ -255,7 +270,6 @@ Page {
             }
         }
     }
-
     Keys.onBackPressed: {
         if(quitTimer.running){
             saveUserData();
@@ -264,6 +278,7 @@ Page {
         else {
             snackbar.open(qsTr("Please click again to quit"));
             quitTimer.start();
+
         }
     }
 }

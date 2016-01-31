@@ -1,11 +1,13 @@
 TEMPLATE = app
 
-QT += qml quick widgets svg network
-
-!osx:qtHaveModule(webengine) {
-        QT += webengine
-        DEFINES += QT_WEBVIEW_WEBENGINE_BACKEND
+equals(QT_MAJOR_VERSION, 4) {
+    QT += network webkit
 }
+equals(QT_MAJOR_VERSION, 5) {
+    QT += qml quick widgets svg network
+    #DEFINES += QT_WEBVIEW_WEBENGINE_BACKEND
+}
+
 
 INCLUDEPATH += src
 
@@ -44,6 +46,19 @@ folder_pic.target = qml
 folder_JS.source = qml/JavaScript
 folder_JS.target = qml
 
+win32-g++{
+    RESOURCES += Win32.qrc
+
+    OTHER_FILES += \
+        qml/Win32/*.qml \
+        qml/Win32/BaseComponent/*.qml \
+        qml/Win32/Delegate/*.qml \
+        qml/Win32/Dialog/*.qml
+
+
+    include(deployment.pri)
+}
+
 mac{
     RESOURCES += Android.qrc
 }
@@ -53,8 +68,8 @@ ios{
 
     HEADERS += UIButton.h
 
-#    OBJECTIVE_SOURCES += \
-#        src/UIButton.mm
+    OBJECTIVE_SOURCES += \
+        src/UIButton.mm
 
 
     RESOURCES += IOS.qrc
@@ -100,13 +115,19 @@ simulator{
     HEADERS += \
         src/MyImage.h
 
-    DEPLOYMENTFOLDERS += folder_Meego folder_pic folder_JS
+    RESOURCES += Meego.qrc
+
+    DEPLOYMENTFOLDERS +=  folder_JS folder_Meego folder_pic
+
+    include(qmlapplicationviewer/qmlapplicationviewer.pri)
+    qtcAddDeployment()
 }
 
 contains(MEEGO_EDITION,harmattan){
+    QT += dbus
 
     DEFINES += Q_OS_HARMATTAN
-    CONFIG += qdeclarative-boostable meegotouch
+    CONFIG += qdeclarative-boostable meegotouch videosuiteinterface-maemo-meegotouch
 
     SOURCES += \
         src/MyImage.cpp
@@ -114,9 +135,8 @@ contains(MEEGO_EDITION,harmattan){
     HEADERS += \
         src/MyImage.h
 
-    DEPLOYMENTFOLDERS +=  folder_JS folder_Meego folder_pic
-    RESOURCES += Meego.qrc \
-        OneToAll.qrc
+    #DEPLOYMENTFOLDERS +=  folder_JS folder_Meego folder_pic
+    RESOURCES += Meego.qrc
 
     OTHER_FILES += \
         qtc_packaging/debian_harmattan/rules \
@@ -134,7 +154,7 @@ contains(MEEGO_EDITION,harmattan){
 
 symbian{
     TARGET = OneToAll
-    VERSION = 0.7.4
+    VERSION = 0.7.4    #version code 6
     DEFINES += VER=\"$$VERSION\"
     vendorinfo = "%{\"QShen\"}" ":\"QShen\""
     my_deployment.pkg_prerules += vendorinfo
@@ -163,7 +183,7 @@ symbian{
     HEADERS += \
         src/MyImage.h
 
-    DEPLOYMENTFOLDERS += folder_Symbian folder_pic folder_JS
+    #DEPLOYMENTFOLDERS += folder_Symbian folder_pic folder_JS
     RESOURCES += Symbian3.qrc
 
     include(qmlapplicationviewer/qmlapplicationviewer.pri)

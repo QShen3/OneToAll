@@ -1,5 +1,5 @@
 import QtQuick 1.1
-import com.nokia.symbian 1.1
+import com.nokia.meego 1.1
 import "../JavaScript/main.js" as Script
 import "BaseComponent"
 import "Dialog"
@@ -12,9 +12,11 @@ MyPage{
         z:1;
     }
     tools: ToolBarLayout{
-        ToolButton{
-            iconSource: "toolbar-back";
-            platformInverted: true;
+        ToolIcon{
+            iconId: "toolbar-back";
+            platformStyle: ToolItemStyle{
+                inverted: true;
+            }
             onClicked: pageStack.pop();
         }
     }
@@ -22,16 +24,18 @@ MyPage{
         id: settingitem;
         anchors{
             top: head.bottom;
-            topMargin: 20;
+            topMargin: 27;
             left: parent.left;
             right: parent.right;
         }
         CheckBox {
             id:autoinstall;
             anchors.left: parent.left;
-            anchors.leftMargin: 10;
+            anchors.leftMargin: 13;
             text: qsTr("Automatically check for new version when the software is opened");
-            platformInverted: true;
+            platformStyle: CheckBoxStyle{
+                inverted: true;
+            }
             checked: settings.autoCheckNewVersion;
             onClicked: {
                 settings.autoCheckNewVersion = checked;
@@ -42,21 +46,20 @@ MyPage{
         id: settingbutton;
         anchors{
             top: settingitem.bottom;
-            topMargin: 20;
+            topMargin: 27;
             left: parent.left;
             right: parent.right;
         }
-        spacing: 20;
+        spacing: 27;
         Button{
-            platformInverted: true;
-            width: 300;
+            width: 400;
             anchors.horizontalCenter: parent.horizontalCenter;
             text: qsTr("Click to check new version");
             onClicked: Script.checkNewVersion(false);
         }
         Button{
-            platformInverted: true;
-            width: 300;
+            //platformInverted: true;
+            width: 400;
             anchors.horizontalCenter: parent.horizontalCenter;
             text: qsTr("About");
             onClicked: aboutdialog.open();

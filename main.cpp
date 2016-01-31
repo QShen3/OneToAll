@@ -71,6 +71,8 @@ int main(int argc, char *argv[])
 #elif defined(Q_OS_IOS)
     qmlRegisterType<QUIButton>("com.qshen.ios", 0, 1, "UIButton");
     engine.load(QUrl(QStringLiteral("qrc:/qml/IOS/main.qml")));
+#elif defined(Q_OS_WIN32)
+    engine.load(QUrl(QStringLiteral("qrc:/qml/Win32/main.qml")));
 #endif
 
 #endif

@@ -4,13 +4,14 @@ import QtQuick.Layouts 1.1
 
 import QtQuick.Window 2.2
 
-import Material 0.1
+import Material 0.2
 import "BaseComponent"
 import "Dialog"
 import "../JavaScript/main.js" as Script
 ApplicationWindow {
     id:app;
     property bool isWideScreen: width > height;
+
     property bool loading;
     visible: true;
 
@@ -79,9 +80,9 @@ ApplicationWindow {
         if(settings.autoCheckNewVersion){
             Script.checkNewVersion(true);
         }
-        if(settings.firstStart){
+        if(settings.versionCode < 1){
             newfeaturedialog.open();
-            settings.firstStart = false;
+            settings.versionCode = 1;
         }
         pageStack.push(homepage);
 

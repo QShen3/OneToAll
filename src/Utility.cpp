@@ -10,6 +10,13 @@
 #include <AiwServiceHandler.h>      //..
 #include <AiwCommon.hrh>            //..
 #include <AiwGenericParam.hrh>
+#elif defined(Q_OS_HARMATTAN)
+#include <QDBusConnection>
+#define CAMERA_SERVICE "com.nokia.maemo.CameraService"
+#define CAMERA_INTERFACE "com.nokia.maemo.meegotouch.CameraInterface"
+#include <videosuiteinterface.h>
+#include <MNotification>
+#include <MRemoteAction>
 #endif
 #include "Utility.h"
 
@@ -65,6 +72,29 @@ private:
     Utility *utility;
 
 };
+#elif defined(Q_OS_HARMATTAN)
+void Utility::captureCanceled(const QString &mode)
+{
+    Q_UNUSED(mode)
+    QDBusConnection bus = QDBusConnection::sessionBus();
+    bus.disconnect(CAMERA_SERVICE, "/", CAMERA_INTERFACE,
+                   "captureCanceled", this, SLOT(captureCanceled(QString)));
+
+    bus.disconnect(CAMERA_SERVICE, "/", CAMERA_INTERFACE,
+                   "captureCompleted", this, SLOT(captureCompleted(QString,QString)));
+}
+void Utility::captureCompleted(const QString &mode, const QString &fileName)
+{
+    Q_UNUSED(mode)
+    QDBusConnection bus = QDBusConnection::sessionBus();
+    bus.disconnect(CAMERA_SERVICE, "/", CAMERA_INTERFACE,
+                   "captureCanceled", this, SLOT(captureCanceled(QString)));
+
+    bus.disconnect(CAMERA_SERVICE, "/", CAMERA_INTERFACE,
+                   "captureCompleted", this, SLOT(captureCompleted(QString,QString)));
+    emit selectImageFinished(fileName);
+}
+
 #endif
 
 
@@ -73,7 +103,7 @@ Utility::Utility(QObject *parent) : QObject(parent)
 {
 #ifdef Q_OS_ANDROID
     #ifdef Q_PROCESSOR_X86
-    m_platformType = Andriod_x86;       // 0
+    m_platformType = Andriod_x86;       //0
     #else
     m_platformType = Andriod_armv7;     //1
     #endif
@@ -82,6 +112,8 @@ Utility::Utility(QObject *parent) : QObject(parent)
     m_platformType = Symbian3;          //2
 #elif defined(Q_OS_HARMATTAN) | defined(Q_WS_SIMULATOR)
     m_platformType = Meego;             //3
+#elif defined(Q_OS_WIN32)
+    m_platformType = Win32;             //4
 #endif
 }
 Utility::~Utility()
@@ -199,7 +231,27 @@ void Utility::captureImage()
     //qDebug() << ret;
     emit selectImageFinished(ret);
     //return ret;
-#endif
+#elif defined(Q_OS_HARMATTAN)
+    QDBusConnection bus = QDBusConnection::sessionBus();
+    bus.connect(CAMERA_SERVICE, "/", CAMERA_INTERFACE,
+                "captureCanceled", this, SLOT(captureCanceled(QString)));
+    bus.connect(CAMERA_SERVICE, "/", CAMERA_INTERFACE,
+                "captureCompleted", this, SLOT(captureCompleted(QString,QString)));
+    QDBusMessage message = QDBusMessage::createMethodCall(CAMERA_SERVICE, "/", CAMERA_INTERFACE, "showCamera");
+    QVariantList arguments;
+    uint someVar = 0;
+    arguments << someVar << "" << "still-capture" << true;
+    message.setArguments(arguments);
+    QDBusMessage reply = bus.call(message);
+    if (reply.type() == QDBusMessage::ErrorMessage){
+        bus.disconnect(CAMERA_SERVICE, "/", CAMERA_INTERFACE,
+                       "captureCanceled", this, SLOT(captureCanceled(QString)));
+
+        bus.disconnect(CAMERA_SERVICE, "/", CAMERA_INTERFACE,
+                       "captureCompleted", this, SLOT(captureCompleted(QString,QString)));
+    }
+
+#endif   
 }
 
 QByteArray Utility::getFile(QString url)

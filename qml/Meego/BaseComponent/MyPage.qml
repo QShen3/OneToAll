@@ -7,6 +7,11 @@ Page {
     property string title;
     property bool loading;
 
+    //width: screen.displayWidth;
+    //height: screen.displayHeight;
+    //width: 480;
+    //height: 854;
+
     orientationLock: PageOrientation.LockPortrait;
 
     Keys.onPressed: {
@@ -15,4 +20,5 @@ Page {
             event.accepted = true;
         }
     }
+    //Component.onCompleted: console.log(root.height + " " + root.width);
 }

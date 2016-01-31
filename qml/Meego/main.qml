@@ -78,9 +78,9 @@ PageStackWindow {
         if(settings.autoCheckNewVersion){
             Script.checkNewVersion(true);
         }
-        if(settings.firstStart){
+        if(settings.versionCode < 1){
             newfeaturedialog.open();
-            settings.firstStart = false;
+            settings.versionCode = 1;
         }
     }
     function saveUserData() {

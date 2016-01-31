@@ -4,7 +4,7 @@
 
 Settings::Settings(QObject *parent) : QObject(parent),settings(NULL)
 {
-    settings = new QSettings(QSettings::IniFormat,QSettings::UserScope,"QShen","OneToAll",this);
+    settings = new QSettings(QSettings::IniFormat, QSettings::UserScope, "QShen", "OneToAll", this);
     loadSettings();
 }
 
@@ -18,7 +18,7 @@ void Settings::loadSettings()
     qDebug() << "Loading settings...";
     if (settings){
         m_autoCheckNewVersion = settings->value("autoCheckNewVersion", true).toBool();
-        m_firstStart = settings->value("firstStart",true).toBool();
+        m_versionCode = settings->value("versionCode", 0).toInt();
     }
     else qDebug() << "settings load failed...";
 }
@@ -28,7 +28,7 @@ void Settings::saveSettings()
     qDebug() << "Saving settins...";
     if (settings){
         settings->setValue("autoCheckNewVersion", m_autoCheckNewVersion);
-        settings->setValue("firstStart",m_firstStart);
+        settings->setValue("versionCode", m_versionCode);
     }
     else qDebug() << "settings save failed...";
 }
@@ -45,9 +45,9 @@ bool Settings::isAutoCheckNewVersion()
 {
     return m_autoCheckNewVersion;
 }
-bool Settings::isFirstStart()
+int Settings::versionCode()
 {
-    return m_firstStart;
+    return m_versionCode;
 }
 
 void Settings::setAutoCheckNewVersion(bool arg)
@@ -57,10 +57,10 @@ void Settings::setAutoCheckNewVersion(bool arg)
         emit autoCheckNewVersionChanged();
     }
 }
-void Settings::setFirstStart(bool arg)
+void Settings::setVersionCode(int arg)
 {
-    if(m_firstStart != arg){
-        m_firstStart = arg;
-        emit firstStartChanged();
+    if(m_versionCode != arg){
+        m_versionCode = arg;
+        emit versionCodeChanged();
     }
 }

@@ -1,0 +1,16 @@
+<RCC>
+    <qresource prefix="/" lang="qml">
+        <file>qml/Win32/HomePage.qml</file>
+        <file>qml/Win32/LoginPage.qml</file>
+        <file>qml/Win32/main.qml</file>
+        <file>qml/Win32/SettingPage.qml</file>
+        <file>qml/Win32/BaseComponent/LoadingIndicator.qml</file>
+        <file>qml/Win32/BaseComponent/SignalCenter.qml</file>
+        <file>qml/Win32/Delegate/UserComponent.qml</file>
+        <file>qml/Win32/Dialog/AboutDialog.qml</file>
+        <file>qml/Win32/Dialog/ChooseDialog.qml</file>
+        <file>qml/Win32/Dialog/ConfirmDialog.qml</file>
+        <file>qml/Win32/Dialog/NewFeatureDialog.qml</file>
+        <file>qml/Win32/Dialog/VersionCheckDialog.qml</file>
+    </qresource>
+</RCC>

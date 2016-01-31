@@ -14,5 +14,6 @@
         <file>qml/Meego/Dialog/ConfirmDialog.qml</file>
         <file>qml/Meego/Dialog/NewFeatureDialog.qml</file>
         <file>qml/Meego/Dialog/VersionCheckDialog.qml</file>
+        <file>qml/Meego/BaseComponent/GallerySheet.qml</file>
     </qresource>
 </RCC>

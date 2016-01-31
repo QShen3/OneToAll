@@ -353,13 +353,24 @@ function loadCheckNewVersionResult(oritxt){
         }
         else versionCheckDialog.openDialog(false, "", "");
     }
-    else if(utility.platformType === 2){      //Symbian^3
-        if(obj.symbian.versioncode > 5){
+    else if(utility.platformType === 2){      //Symbian^3  0.7.4
+        if(obj.symbian.versioncode > 6){
             if(cutStr(utility.getLocale(),0,2) === "zh")
                 versionCheckDialog.openDialog(true, obj.symbian.url, obj.symbian.changelog.zh);
             else versionCheckDialog.openDialog(true, obj.symbian.url, obj.symbian.changelog.en);
         }
         else versionCheckDialog.openDialog(false, "", "");
+    }
+    else if(utility.platformType === 3){        //Meego 0.7.0
+        if(obj.meego.versioncode > 1){
+            if(cutStr(utility.getLocale(),0,2) === "zh")
+                versionCheckDialog.openDialog(true, obj.meego.url, obj.meego.changelog.zh);
+            else versionCheckDialog.openDialog(true, obj.meego.url, obj.meego.changelog.en);
+        }
+        else versionCheckDialog.openDialog(false, "", "");
+    }
+    else if(utility.platformType === 4){        //Win32 0.7.0
+
     }
 }
 function loadCheckNewVersionResultBackground(oritxt){
@@ -378,11 +389,21 @@ function loadCheckNewVersionResultBackground(oritxt){
             else versionCheckDialog.openDialog(true, obj.android.armurl, obj.android.changelog.en);
         }
     }
-    else if(utility.platformType === 2){        //Symbian^3
-        if(obj.symbian.versioncode > 5){
+    else if(utility.platformType === 2){        //Symbian^3  0.7.4
+        if(obj.symbian.versioncode > 6){
             if(cutStr(utility.getLocale(),0,2) === "zh")
                 versionCheckDialog.openDialog(true, obj.symbian.url, obj.symbian.changelog.zh);
             else versionCheckDialog.openDialog(true, obj.symbian.url, obj.symbian.changelog.en);
         }
+    }
+    else if(utility.platformType === 3){        //Meego 0.7.0
+        if(obj.meego.versioncode > 1){
+            if(cutStr(utility.getLocale(),0,2) === "zh")
+                versionCheckDialog.openDialog(true, obj.meego.url, obj.meego.changelog.zh);
+            else versionCheckDialog.openDialog(true, obj.meego.url, obj.meego.changelog.en);
+        }
+    }
+    else if(utility.platformType === 4){        //Win32 0.7.0
+
     }
 }

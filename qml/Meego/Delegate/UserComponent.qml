@@ -114,8 +114,9 @@ import com.stars.widgets 1.0
 Item {
     id: listItem
 
-    signal clicked
-    property alias pressed: mouseArea.pressed
+    signal clicked;
+    signal pressAndHold;
+    //property alias pressed: mouseArea.pressed
 
     property int titleSize: 26
     property int titleWeight: Font.Bold
@@ -202,6 +203,22 @@ Item {
         onClicked: {
             listItem.clicked();
         }
+        onPressAndHold: {
+            listItem.pressAndHold();
+        }
+    }
+    onClicked: {
+        if(!model.authorize){
+            switch(model.from){
+            case "Weibo":
+                pageStack.push(Qt.resolvedUrl("../LoginPage.qml"),{from:"Weibo"});
+                usermodel.remove(index);
+                break;
+            }
+        }
+    }
+    onPressAndHold: {
+        confirmdialog.openDialog(index);
     }
 }
 

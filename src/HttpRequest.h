@@ -1,9 +1,11 @@
 #ifndef HTTPREQUEST
 #define HTTPREQUEST
 #include <QObject>
-#include <QtDeclarative>
 #if(QT_VERSION<0x050000)
+#include <QtDeclarative>
 #include <Qurl>
+#else
+#include <QtQml>
 #endif
 
 class QNetworkAccessManager;
@@ -62,7 +64,11 @@ private:
 
 };
 
+#if(QT_VERSION<0x050000)
 class NetworkAccessManagerFactory : public QDeclarativeNetworkAccessManagerFactory
+#else
+class NetworkAccessManagerFactory : public QQmlNetworkAccessManagerFactory
+#endif
 {
 public:
     explicit NetworkAccessManagerFactory();

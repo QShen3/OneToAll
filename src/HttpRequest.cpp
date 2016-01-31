@@ -10,7 +10,7 @@
 #if QT_VERSION < 0x050000
 #include <QDesktopServices>
 #else
-
+#include <QStandardPaths>
 #endif
 #include "HttpRequest.h"
 HttpRequest::HttpRequest(QObject *parent) : QObject(parent)
@@ -213,7 +213,11 @@ void HttpRequest::setStatus(RequestStatus newStatus)
     }
 }
 
+#if(QT_VERSION<0x050000)
 NetworkAccessManagerFactory::NetworkAccessManagerFactory() : QDeclarativeNetworkAccessManagerFactory()
+#else
+NetworkAccessManagerFactory::NetworkAccessManagerFactory() : QQmlNetworkAccessManagerFactory()
+#endif
 {
 }
 
@@ -222,7 +226,11 @@ QNetworkAccessManager* NetworkAccessManagerFactory::create(QObject *parent)
     QNetworkAccessManager* manager = new NetworkAccessManager(parent);
 
     QNetworkDiskCache* diskCache = new QNetworkDiskCache(parent);
+#if(QT_VERSION<0x050000)
     QString dataPath = QDesktopServices::storageLocation(QDesktopServices::CacheLocation);
+#else
+    QString dataPath = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
+#endif
     diskCache->setCacheDirectory(dataPath);
     diskCache->setMaximumCacheSize(3*1024*1024);
     manager->setCache(diskCache);
