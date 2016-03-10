@@ -10,9 +10,8 @@ Page{
 
     WebView{
         id:webview;
-        width: 800;
-        height: 600;
-        /*url:{
+        anchors.fill: parent;
+        url:{
             switch(from){
             case "Weibo":
                 return "https://open.weibo.cn/oauth2/authorize?client_id=1661137619&redirect_uri=https://api.weibo.com/oauth2/default.html&display=mobile&scope=follow_app_official_microblog";
@@ -21,10 +20,8 @@ Page{
             case "TencentWeibo":
                 return "https://graph.qq.com/oauth2.0/authorize?client_id=101258308&response_type=code&redirect_uri=http://onetoall.sinaapp.com/successful.php&scope=get_info,add_t,add_pic_t&display=mobile";
             }
-        }*/
-        url: "http://qt.io"
+        }
         onUrlChanged: {
-            console.log(url);
             if(Script.cutStr(url,0,41) === "https://api.weibo.com/oauth2/default.html"){
                 Script.getAccessToken("Weibo",Script.cutStr(url,47));
                 pageStack.pop();
@@ -38,8 +35,6 @@ Page{
                 pageStack.pop();
             }
         }
-        onLoadProgressChanged: console.log(loadProgress)
-        //Component.onCompleted: console.log(width)
     }
 }
 

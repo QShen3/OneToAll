@@ -10,8 +10,10 @@ import "Dialog"
 import "../JavaScript/main.js" as Script
 ApplicationWindow {
     id:app;
-    property bool isWideScreen: width > height;
+    property bool isWideScreen: Screen.width > Screen.height;
     property bool loading;
+    height: Screen.desktopAvailableHeight;
+    width: Screen.desktopAvailableWidth;
     visible: true;
 
     theme {
@@ -85,7 +87,9 @@ ApplicationWindow {
         }
         pageStack.push(homepage);
 
-        //console.log(Units.dp(1))
+        console.log(height + " " + Screen.desktopAvailableHeight);
+        //height = Screen.height;
+        //width = Screen.desktopAvailableWidth
     }
     function saveUserData() {
         var arry=[];

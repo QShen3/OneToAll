@@ -25,7 +25,7 @@ HEADERS += \
 
 
 RESOURCES += \
-    OneToAll.qrc        #js files and pic files
+    OneToAll.qrc          #js files and pic files
 
 TRANSLATIONS += i18n/onetoall_zh.ts
 
@@ -57,6 +57,22 @@ win32-g++{
 
 
     include(deployment.pri)
+
+    message(Win32 build)
+}
+
+winrt{
+    WinRT.qrc
+
+    OTHER_FILES += \
+        qml/WinRT/*.qml \
+        qml/WinRT/BaseComponent/*.qml \
+        qml/WinRT/Delegate/*.qml \
+        qml/WinRT/Dialog/*.qml
+
+    include(deployment.pri)
+
+    message(WinRT build)
 }
 
 mac{
@@ -106,6 +122,7 @@ android{
     ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
 
     include(deployment.pri)
+    message(Android build)
 }
 
 simulator{

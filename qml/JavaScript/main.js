@@ -336,8 +336,8 @@ function checkNewVersion(isBackground){
 }
 function loadCheckNewVersionResult(oritxt){
     var obj = JSON.parse(oritxt);   
-    if(utility.platformType === 0){          //Android x86
-        if(obj.android.versioncode > 6){
+    if(utility.platformType === 0){          //Android x86 0.7.2
+        if(obj.android.versioncode > 7){
             if(cutStr(utility.getLocale(),0,2) === "zh"){
                 versionCheckDialog.openDialog(true, obj.android.x86url, obj.android.changelog.zh);
             }
@@ -345,8 +345,8 @@ function loadCheckNewVersionResult(oritxt){
         }
         else versionCheckDialog.openDialog(false, "", "");
     }
-    else if(utility.platformType === 1){     //Android armv7
-        if(obj.android.versioncode > 6){
+    else if(utility.platformType === 1){     //Android armv7 0.7.2
+        if(obj.android.versioncode > 7){
             if(cutStr(utility.getLocale(),0,2) === "zh")
                 versionCheckDialog.openDialog(true, obj.android.armurl, obj.android.changelog.zh);
             else versionCheckDialog.openDialog(true, obj.android.armurl, obj.android.changelog.en);
@@ -375,15 +375,15 @@ function loadCheckNewVersionResult(oritxt){
 }
 function loadCheckNewVersionResultBackground(oritxt){
     var obj = JSON.parse(oritxt);
-    if(utility.platformType === 0){         //Android x86
-        if(obj.android.versioncode > 6){
+    if(utility.platformType === 0){         //Android x86 0.7.2
+        if(obj.android.versioncode > 7){
             if(cutStr(utility.getLocale(),0,2) === "zh")
                 versionCheckDialog.openDialog(true, obj.android.x86url, obj.android.changelog.zh);
             else versionCheckDialog.openDialog(true, obj.android.x86url, obj.android.changelog.en);
         }
     }
-    else if(utility.platformType === 1){        //Android armv7
-        if(obj.android.versioncode > 6){
+    else if(utility.platformType === 1){        //Android armv7 0.7.2
+        if(obj.android.versioncode > 7){
             if(cutStr(utility.getLocale(),0,2) === "zh")
                 versionCheckDialog.openDialog(true, obj.android.armurl, obj.android.changelog.zh);
             else versionCheckDialog.openDialog(true, obj.android.armurl, obj.android.changelog.en);

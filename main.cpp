@@ -25,6 +25,8 @@
 
 int main(int argc, char *argv[])
 {
+    //qDebug() << getenv("PATH");
+
     QApplication app(argc, argv);
 
     QString locale = QLocale::system().name();

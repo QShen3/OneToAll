@@ -164,6 +164,8 @@ void Utility::selectImage()
     emit selectImageFinished(QDir::fromNativeSeparators(result));
 #elif defined(Q_WS_SIMULATOR)
     emit selectImageFinished("E:/Image/83419e2f070828384964f455bb99a9014d08f1c0.jpg");
+#elif defined(Q_OS_WIN32)
+
 #endif
 }
 
@@ -250,6 +252,7 @@ void Utility::captureImage()
         bus.disconnect(CAMERA_SERVICE, "/", CAMERA_INTERFACE,
                        "captureCompleted", this, SLOT(captureCompleted(QString,QString)));
     }
+#elif defined(Q_OS_WIN32)
 
 #endif   
 }

@@ -35,6 +35,22 @@ Page{
                 pageStack.pop();
             }
         }
+        /*onLoadingChanged: {
+            if(loading){
+                app.loading = true;
+                loadingind.open();
+                processingtimer.restart();
+            }
+            else{
+                app.loading = false;
+                loadingind.close();
+                processingtimer.stop();
+            }
+        }*/
+    }
+    Keys.onBackPressed: {
+        console.log("back");
+        pageStack.pop();
     }
 }
 
