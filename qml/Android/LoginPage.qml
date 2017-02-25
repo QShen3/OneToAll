@@ -1,13 +1,13 @@
 import QtQuick 2.4
 import QtWebView 1.0
 //import QtWebKit 3.0
-import Material 0.1
+import Material 0.2
 import "../JavaScript/main.js" as Script
 Page{
     id:loginpage;
     property string from;
     title: qsTr("Add account");
-
+    canGoBack: true;
     WebView{
         id:webview;
         anchors.fill: parent;
@@ -35,7 +35,7 @@ Page{
                 pageStack.pop();
             }
         }
-        /*onLoadingChanged: {
+        onLoadingChanged: {
             if(loading){
                 app.loading = true;
                 loadingind.open();
@@ -46,11 +46,7 @@ Page{
                 loadingind.close();
                 processingtimer.stop();
             }
-        }*/
-    }
-    Keys.onBackPressed: {
-        console.log("back");
-        pageStack.pop();
+        }
     }
 }
 

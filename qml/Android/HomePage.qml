@@ -1,6 +1,6 @@
 import QtQuick 2.4
 import QtQuick.Dialogs 1.2
-import Material 0.1
+import Material 0.2
 import "Delegate"
 import "Dialog"
 import "../JavaScript/main.js" as Script
@@ -222,13 +222,7 @@ Page {
             iconName: "content/add";
             onClicked: choosedialog.open();
         }
-    }
-    Timer{
-        id: quitTimer;
-        interval: 3000;
-        running: false;
-        repeat: false;
-    }
+    }    
     ChooseDialog{
         id:choosedialog;
     }
@@ -270,7 +264,12 @@ Page {
     ConfirmDialog{
         id: confirmdialog;
     }
-
+    Timer{
+        id: quitTimer;
+        interval: 3000;
+        running: false;
+        repeat: false;
+    }
     Connections{
         target: utility;
         onSelectImageFinished:{
@@ -304,16 +303,24 @@ Page {
         }
     }
     Keys.onBackPressed: {
-        if(quitTimer.running){
-            saveUserData();
-            Qt.quit();
+        console.log(pageStack.depth)
+        if(pageStack.depth == 1){
+            if(quitTimer.running){
+                console.log(quitTimer.running);
+                saveUserData();
+                Qt.quit();
+            }
+            else {
+                snackbar.open(qsTr("Please click again to quit"));
+                quitTimer.start();
+            }
         }
-        else {
-            snackbar.open(qsTr("Please click again to quit"));
-            quitTimer.start();
-
+        else{
+            pageStack.pop();
         }
     }
+    Component.onCompleted: console.log(width);
+
 }
 
 

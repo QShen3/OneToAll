@@ -62,7 +62,7 @@ win32-g++{
 }
 
 winrt{
-    WinRT.qrc
+    #WinRT.qrc
 
     OTHER_FILES += \
         qml/WinRT/*.qml \

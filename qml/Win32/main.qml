@@ -89,6 +89,8 @@ ApplicationWindow {
         }
         pageStack.push(homepage);
 
+        console.log("Win32 platform");
+
         //console.log(Units.dp(1))
     }
     function saveUserData() {

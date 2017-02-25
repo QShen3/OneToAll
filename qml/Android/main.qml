@@ -4,7 +4,7 @@ import QtQuick.Layouts 1.1
 
 import QtQuick.Window 2.2
 
-import Material 0.1
+import Material 0.2
 import "BaseComponent"
 import "Dialog"
 import "../JavaScript/main.js" as Script
@@ -53,6 +53,7 @@ ApplicationWindow {
     ListModel{
         id:usermodel;
     }
+
     Connections{
         target: signalcenter;
         onLoadStarted:{
@@ -87,8 +88,10 @@ ApplicationWindow {
         }
         pageStack.push(homepage);
 
-        console.log(height + " " + Screen.desktopAvailableHeight);
-        //height = Screen.height;
+        console.log("Android platform");
+
+        //console.log(height + " here " + Screen.desktopAvailableHeight);
+        //height = Screen.;
         //width = Screen.desktopAvailableWidth
     }
     function saveUserData() {
@@ -108,4 +111,5 @@ ApplicationWindow {
             usermodel.append(obj.statuses[i]);
         }
     }
+
 }

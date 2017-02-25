@@ -89,6 +89,7 @@ ApplicationWindow {
         }
         pageStack.push(homepage);
 
+        console.log("WinRT platform");
         //console.log(Units.dp(1))
     }
     function saveUserData() {
